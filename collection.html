@@ -20,11 +20,287 @@
         </div>
     </div>
 
-    <!-- Header (same as index.html) -->
-    <!-- Header content would be the same as index.html -->
+    <!-- Header -->
+
     <header>
-        <!-- Header content from index.html -->
-    </header>
+      <div class="header-container">
+          <a href="#" class="logo">
+              <i class="fas fa-layer-group"></i>
+              Dos Amigos
+          </a>
+          <div class="top-nav">
+              <div class="top-nav-item">
+                  <i class="fas fa-search"></i>
+              </div>
+              <div class="top-nav-item">
+                  <i class="fas fa-heart"></i>
+              </div>
+              <div class="top-nav-item">
+                  <i class="fas fa-random"></i>
+              </div>
+              <button class="language-toggle" id="language-toggle">EN</button>
+              <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                  <i class="fas fa-bars"></i>
+              </button>
+          </div>
+      </div>
+
+      <div class="main-nav" id="main-nav">
+          <ul class="nav-list">
+              <li class="nav-item">
+                  <a href="#" class="nav-link">Inicio</a>
+              </li>
+              <li class="nav-item">
+                  <button class="dropdown-button" id="productos-button">
+                      Productos <i class="fas fa-chevron-down"></i>
+                  </button>
+              </li>
+              <li class="nav-item">
+                  <button class="dropdown-button" id="marcas-button">
+                      Marcas <i class="fas fa-chevron-down"></i>
+                  </button>
+              </li>
+              <li class="nav-item">
+                  <button class="dropdown-button" id="hombres-button">
+                      Hombres <i class="fas fa-chevron-down"></i>
+                  </button>
+              </li>
+              <li class="nav-item">
+                  <button class="dropdown-button" id="mujeres-button">
+                      Mujeres <i class="fas fa-chevron-down"></i>
+                  </button>
+              </li>
+              <li class="nav-item">
+                  <button class="dropdown-button" id="ninos-button">
+                      Niños <i class="fas fa-chevron-down"></i>
+                  </button>
+              </li>
+              <li class="nav-item">
+                  <a href="#" class="nav-link">Ofertas</a>
+              </li>
+              <li class="nav-item">
+                  <a href="#contact-us" class="nav-link">Contacto</a>
+              </li>
+              <li class="nav-item">
+                <a href="collection.html" class="nav-link">Ver Todo</a>
+            </li>
+          </ul>
+      </div>
+
+      <!-- Mega Menu - Productos  use this as referenco to link all the products on the menu--> 
+      <div class="mega-menu-container" id="productos-mega-menu">
+          <div class="mega-menu">
+              <div class="menu-category">
+                  <h3><a href="collection.html?type=category&value=boots">Botas</a></h3>
+                  <ul class="submenu">
+                      <li><a href="collection.html?type=category&value=boots&filter=hombre">Botas para Hombre</a></li>
+                      <li><a href="collection.html?type=category&value=boots&filter=mujer">Botas para Mujer</a></li>
+                      <li><a href="collection.html?type=category&value=boots&filter=ninos">Botas para Niños</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Sombreros 2</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Sombreros 2.1</a></li>
+                      <li><a href="#">Sombreros 2.2</a></li>
+                      <li><a href="#">Sombreros 2.3</a></li>
+                      <li><a href="#">Sombreros 2.4</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Cinturones 3</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Cinturones 3.1</a></li>
+                      <li><a href="#">Cinturones 3.2</a></li>
+                      <li><a href="#">Cinturones 3.3</a></li>
+                      <li><a href="#">Cinturones 3.4</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Gorras 4</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Gorras 4.1</a></li>
+                      <li><a href="#">Gorras 4.2</a></li>
+                      <li><a href="#">Gorras 4.3</a></li>
+                      <li><a href="#">Gorras 4.4</a></li>
+                  </ul>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Mega Menu - Marcas -->
+      <div class="mega-menu-container" id="marcas-mega-menu">
+          <div class="mega-menu">
+              <div class="menu-category">
+                  <h3><a href="#">Marcas Destacadas</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Marca Premium A</a></li>
+                      <li><a href="#">Marca Premium B</a></li>
+                      <li><a href="#">Marca Premium C</a></li>
+                      <li><a href="#">Marca Premium D</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Marcas Populares</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Marca Popular A</a></li>
+                      <li><a href="#">Marca Popular B</a></li>
+                      <li><a href="#">Marca Popular C</a></li>
+                      <li><a href="#">Marca Popular D</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Todas las Marcas</a></h3>
+                  <div class="category-gallery">
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Marca A">
+                          <div class="gallery-caption">Marca A</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Marca B">
+                          <div class="gallery-caption">Marca B</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Marca C">
+                          <div class="gallery-caption">Marca C</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Marca D">
+                          <div class="gallery-caption">Marca D</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Marca E">
+                          <div class="gallery-caption">Marca E</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Marca F">
+                          <div class="gallery-caption">Marca F</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Mega Menu - Hombres -->
+      <div class="mega-menu-container" id="hombres-mega-menu">
+          <div class="mega-menu">
+              <div class="menu-category">
+                  <h3><a href="#">Ropa</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Camisetas</a></li>
+                      <li><a href="#">Pantalones</a></li>
+                      <li><a href="#">Chaquetas</a></li>
+                      <li><a href="#">Botas</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Accesorios</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Sombreros</a></li>
+                      <li><a href="#">Gorras</a></li>
+                      <li><a href="#">Cinturones</a></li>
+                      <!-- <li><a href="#">Gafas</a></li> -->
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Destacados</a></h3>
+                  <div class="category-gallery">
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Hombre 1">
+                          <div class="gallery-caption">Nuevo</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Hombre 2">
+                          <div class="gallery-caption">Popular</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Hombre 3">
+                          <div class="gallery-caption">Oferta</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Mega Menu - Mujeres -->
+      <div class="mega-menu-container" id="mujeres-mega-menu">
+          <div class="mega-menu">
+              <div class="menu-category">
+                  <h3><a href="#">Ropa</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Camisetas</a></li>
+                      <li><a href="#">Pantalones</a></li>
+                      <li><a href="#">Botas</a></li>
+                      <li><a href="#">Chaquetas</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Accesorios</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Cinturones</a></li>
+                      <li><a href="#">Sombreros</a></li>
+                      <li><a href="#">Gorras</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Destacados</a></h3>
+                  <div class="category-gallery">
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Mujer 1">
+                          <div class="gallery-caption">Nuevo</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Mujer 2">
+                          <div class="gallery-caption">Popular</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Mujer 3">
+                          <div class="gallery-caption">Oferta</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      
+      <!-- Mega Menu - Niños -->
+      <div class="mega-menu-container" id="ninos-mega-menu">
+          <div class="mega-menu">
+              <div class="menu-category">
+                  <h3><a href="#">Niños</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Camisetas</a></li>
+                      <li><a href="#">Pantalones</a></li>
+                      <li><a href="#">Botas</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Niñas</a></h3>
+                  <ul class="submenu">
+                      <li><a href="#">Camisetas</a></li>
+                      <li><a href="#">Pantalones</a></li>
+                      <li><a href="#">Botas</a></li>
+                  </ul>
+              </div>
+              <div class="menu-category">
+                  <h3><a href="#">Destacados</a></h3>
+                  <div class="category-gallery">
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Niño 1">
+                          <div class="gallery-caption">Nuevo</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Niño 2">
+                          <div class="gallery-caption">Popular</div>
+                      </div>
+                      <div class="gallery-item">
+                          <img src="/api/placeholder/200/100" alt="Producto Niño 3">
+                          <div class="gallery-caption">Oferta</div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </header>
 
     <!-- Collection Hero Section -->
     <section class="collection-hero">
@@ -33,6 +309,13 @@
             <p id="collection-description">Explora nuestra selección de productos.</p>
         </div>
     </section>
+
+    <div class="breadcrumbs">
+      <div class="container">
+          <a href="index.html">Inicio</a> &gt; 
+          <span id="breadcrumb-collection">Colección</span>
+      </div>
+  </div>
 
     <!-- Collection Content -->
     <section class="collection-container">

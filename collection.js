@@ -49,6 +49,12 @@ function updateCollectionTitle(type, value) {
   
   // Also update the page title
   document.title = `CatálogoPlus - ${heading.textContent}`;
+
+  // Update breadcrumb
+  const breadcrumb = document.getElementById('breadcrumb-collection');
+  if (breadcrumb) {
+      breadcrumb.textContent = heading.textContent;
+  }
 }
 
 // Format collection name (convert slug to readable name)
@@ -152,7 +158,15 @@ function loadFilteredProducts(type, value, page = 1) {
 // Apply current filters from the sidebar
 function applyCurrentFilters(products) {
   let result = [...products];
-  
+
+  // get the parameters from index.html
+  const urlParams = new URLSearchParams(window.location.search);
+  const audienceFilter = urlParams.get('filter');
+  if (audienceFilter) {
+    result = result.filter(product => 
+        product.tags && product.tags.includes(audienceFilter));
+  }
+
   // Get all active checkboxes and filters
   // Categories
   const categoryCheckboxes = document.querySelectorAll('input[name="category"]:checked');
@@ -180,8 +194,7 @@ function applyCurrentFilters(products) {
   const maxPrice = parseFloat(document.getElementById('price-max').value);
   
   result = result.filter(product => {
-      const price = parseFloat(product.price.replace('
-  , '').replace(',', ''));
+      const price = parseFloat(product.price.replace('$', '').replace(',', ''));
       return price >= minPrice && price <= maxPrice;
   });
   
@@ -220,19 +233,15 @@ function applySorting(products) {
   switch(sortValue) {
       case 'price-low':
           result.sort((a, b) => {
-              const priceA = parseFloat(a.price.replace('
-  , '').replace(',', ''));
-              const priceB = parseFloat(b.price.replace('
-  , '').replace(',', ''));
+              const priceA = parseFloat(a.price.replace('$', '').replace(',', ''));
+              const priceB = parseFloat(b.price.replace('$', '').replace(',', ''));
               return priceA - priceB;
           });
           break;
       case 'price-high':
           result.sort((a, b) => {
-              const priceA = parseFloat(a.price.replace('
-  , '').replace(',', ''));
-              const priceB = parseFloat(b.price.replace('
-  , '').replace(',', ''));
+              const priceA = parseFloat(a.price.replace('$', '').replace(',', ''));
+              const priceB = parseFloat(b.price.replace('$', '').replace(',', ''));
               return priceB - priceA;
           });
           break;

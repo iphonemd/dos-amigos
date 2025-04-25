@@ -43,6 +43,13 @@ document.addEventListener('DOMContentLoaded', function() {
   setupCompareTable();
   setupLanguageToggle();
   setupScrollAnimation();
+  
+  document.querySelectorAll('.category-card').forEach(card => {
+    card.addEventListener('click', function() {
+        const categoryName = this.querySelector('h3').textContent.toLowerCase().replace(/\s+/g, '-');
+        window.location.href = `collection.html?type=category&value=${categoryName}`;
+    });
+});
 });
 
 // Main Navigation functionality

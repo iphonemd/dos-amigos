@@ -19,9 +19,10 @@ const productData = {
           text: 'Nuevo',
           color: '#e74c3c'
       },
-      category: 'new',
+      category: 'boots',
       featured: false,
-      topSeller: false
+      topSeller: false,
+      tags: ['calzado', 'hombre', 'casual']
   },
   2: {
       id: 2,
@@ -42,9 +43,10 @@ const productData = {
           text: '-15%',
           color: '#f39c12'
       },
-      category: 'sale',
+      category: 'hats',
       featured: false,
-      topSeller: false
+      topSeller: false,
+      tags: ['accesorios', 'unisex', 'casual']
   },
   3: {
       id: 3,
@@ -62,9 +64,10 @@ const productData = {
           '/api/placeholder/800/500?text=Producto+3+Vista+4'
       ],
       badge: null,
-      category: 'popular',
+      category: 'jackets',
       featured: false,
-      topSeller: false
+      topSeller: false,
+      tags: ['ropa', 'hombre', 'formal']
   },
   4: {
       id: 4,
@@ -85,9 +88,10 @@ const productData = {
           text: 'Top',
           color: '#27ae60'
       },
-      category: 'popular',
+      category: 'boots',
       featured: false,
-      topSeller: false
+      topSeller: false,
+      tags: ['calzado', 'mujer', 'formal']
   },
   5: {
       id: 5,
@@ -108,9 +112,10 @@ const productData = {
           text: 'Best Seller',
           color: '#8e44ad'
       },
-      category: 'popular',
+      category: 'accessories',
       featured: true,
-      topSeller: true
+      topSeller: true,
+      tags: ['accesorios', 'unisex', 'casual']
   },
   6: {
       id: 6,
@@ -131,9 +136,10 @@ const productData = {
           text: 'Best Seller',
           color: '#8e44ad'
       },
-      category: 'sale',
+      category: 'hats',
       featured: false,
-      topSeller: true
+      topSeller: true,
+      tags: ['accesorios', 'hombre', 'casual']
   },
   7: {
       id: 7,
@@ -154,9 +160,10 @@ const productData = {
           text: 'Best Seller',
           color: '#8e44ad'
       },
-      category: 'popular',
+      category: 'jackets',
       featured: false,
-      topSeller: true
+      topSeller: true,
+      tags: ['ropa', 'mujer', 'casual']
   },
   8: {
       id: 8,
@@ -177,11 +184,59 @@ const productData = {
           text: 'Best Seller',
           color: '#8e44ad'
       },
-      category: 'sale',
+      category: 'accessories',
       featured: true,
-      topSeller: true
+      topSeller: true,
+      tags: ['accesorios', 'niños', 'casual']
   }
 };
+
+// Additional products to demonstrate the collection page
+for (let i = 9; i <= 20; i++) {
+  const categories = ['boots', 'hats', 'jackets', 'accessories'];
+  const brands = ['Marca A', 'Marca B', 'Marca C', 'Marca D'];
+  const audienceTypes = ['hombre', 'mujer', 'niños', 'unisex'];
+  const styleTypes = ['casual', 'formal', 'deportivo'];
+  
+  productData[i] = {
+      id: i,
+      brand: brands[Math.floor(Math.random() * brands.length)],
+      title: `Producto Adicional ${i}`,
+      price: `${(50 + Math.floor(Math.random() * 150)).toFixed(2)}`,
+      oldPrice: Math.random() > 0.5 ? `${(100 + Math.floor(Math.random() * 150)).toFixed(2)}` : '',
+      description: 'Este es un producto adicional para demostrar la página de colección. Incluye diferentes categorías, marcas y características para mostrar la funcionalidad de filtrado.',
+      colors: [
+          ['#e74c3c', '#3498db', '#2ecc71'],
+          ['#2c3e50', '#9b59b6'],
+          ['#f1c40f', '#e67e22', '#95a5a6'],
+          ['#34495e', '#16a085']
+      ][Math.floor(Math.random() * 4)],
+      sizes: [
+          ['S', 'M', 'L'],
+          ['M', 'L', 'XL'],
+          ['S', 'M', 'L', 'XL'],
+          ['XS', 'S', 'M']
+      ][Math.floor(Math.random() * 4)],
+      images: [
+          [`/api/placeholder/800/500?text=Producto+${i}`,
+          `/api/placeholder/800/500?text=Producto+${i}+Vista+2`,
+          `/api/placeholder/800/500?text=Producto+${i}+Vista+3`,
+          `/api/placeholder/800/500?text=Producto+${i}+Vista+4`]
+      ],
+      badge: Math.random() > 0.7 ? {
+          text: ['Nuevo', '-20%', 'Popular'][Math.floor(Math.random() * 3)],
+          color: ['#e74c3c', '#f39c12', '#27ae60'][Math.floor(Math.random() * 3)]
+      } : null,
+      category: categories[Math.floor(Math.random() * categories.length)],
+      featured: Math.random() > 0.8,
+      topSeller: Math.random() > 0.8,
+      tags: [
+          categories[Math.floor(Math.random() * categories.length)],
+          audienceTypes[Math.floor(Math.random() * audienceTypes.length)],
+          styleTypes[Math.floor(Math.random() * styleTypes.length)]
+      ]
+  };
+}
 
 // Comparison data (simulated for demo)
 const compareData = [
