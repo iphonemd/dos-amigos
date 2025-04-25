@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dos Amigos - Exhibición de Productos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>Dos Amigos</h2>
+            <p>Cargando experiencia...</p>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">
+                <i class="fas fa-layer-group"></i>
+                Dos Amigos
+            </a>
+            <div class="top-nav">
+                <div class="top-nav-item">
+                    <i class="fas fa-search"></i>
+                </div>
+                <div class="top-nav-item">
+                    <i class="fas fa-heart"></i>
+                </div>
+                <div class="top-nav-item">
+                    <i class="fas fa-random"></i>
+                </div>
+                <button class="language-toggle" id="language-toggle">EN</button>
+                <button class="mobile-menu-toggle" id="mobile-menu-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+
+        <div class="main-nav" id="main-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <button class="dropdown-button" id="productos-button">
+                        Productos <i class="fas fa-chevron-down"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="dropdown-button" id="marcas-button">
+                        Marcas <i class="fas fa-chevron-down"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="dropdown-button" id="hombres-button">
+                        Hombres <i class="fas fa-chevron-down"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="dropdown-button" id="mujeres-button">
+                        Mujeres <i class="fas fa-chevron-down"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <button class="dropdown-button" id="ninos-button">
+                        Niños <i class="fas fa-chevron-down"></i>
+                    </button>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">Ofertas</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact-us" class="nav-link">Contacto</a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Mega Menu - Productos -->
+        <div class="mega-menu-container" id="productos-mega-menu">
+            <div class="mega-menu">
+                <div class="menu-category">
+                    <h3><a href="#">Botas</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Botas 1.1</a></li>
+                        <li><a href="#">Botas 1.2</a></li>
+                        <li><a href="#">Botas 1.3</a></li>
+                        <li><a href="#">Botas 1.4</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Sombreros 2</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Sombreros 2.1</a></li>
+                        <li><a href="#">Sombreros 2.2</a></li>
+                        <li><a href="#">Sombreros 2.3</a></li>
+                        <li><a href="#">Sombreros 2.4</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Cinturones 3</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Cinturones 3.1</a></li>
+                        <li><a href="#">Cinturones 3.2</a></li>
+                        <li><a href="#">Cinturones 3.3</a></li>
+                        <li><a href="#">Cinturones 3.4</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Gorras 4</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Gorras 4.1</a></li>
+                        <li><a href="#">Gorras 4.2</a></li>
+                        <li><a href="#">Gorras 4.3</a></li>
+                        <li><a href="#">Gorras 4.4</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mega Menu - Marcas -->
+        <div class="mega-menu-container" id="marcas-mega-menu">
+            <div class="mega-menu">
+                <div class="menu-category">
+                    <h3><a href="#">Marcas Destacadas</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Marca Premium A</a></li>
+                        <li><a href="#">Marca Premium B</a></li>
+                        <li><a href="#">Marca Premium C</a></li>
+                        <li><a href="#">Marca Premium D</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Marcas Populares</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Marca Popular A</a></li>
+                        <li><a href="#">Marca Popular B</a></li>
+                        <li><a href="#">Marca Popular C</a></li>
+                        <li><a href="#">Marca Popular D</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Todas las Marcas</a></h3>
+                    <div class="category-gallery">
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Marca A">
+                            <div class="gallery-caption">Marca A</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Marca B">
+                            <div class="gallery-caption">Marca B</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Marca C">
+                            <div class="gallery-caption">Marca C</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Marca D">
+                            <div class="gallery-caption">Marca D</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Marca E">
+                            <div class="gallery-caption">Marca E</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Marca F">
+                            <div class="gallery-caption">Marca F</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mega Menu - Hombres -->
+        <div class="mega-menu-container" id="hombres-mega-menu">
+            <div class="mega-menu">
+                <div class="menu-category">
+                    <h3><a href="#">Ropa</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Camisetas</a></li>
+                        <li><a href="#">Pantalones</a></li>
+                        <li><a href="#">Chaquetas</a></li>
+                        <li><a href="#">Botas</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Accesorios</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Sombreros</a></li>
+                        <li><a href="#">Gorras</a></li>
+                        <li><a href="#">Cinturones</a></li>
+                        <!-- <li><a href="#">Gafas</a></li> -->
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Destacados</a></h3>
+                    <div class="category-gallery">
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Hombre 1">
+                            <div class="gallery-caption">Nuevo</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Hombre 2">
+                            <div class="gallery-caption">Popular</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Hombre 3">
+                            <div class="gallery-caption">Oferta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mega Menu - Mujeres -->
+        <div class="mega-menu-container" id="mujeres-mega-menu">
+            <div class="mega-menu">
+                <div class="menu-category">
+                    <h3><a href="#">Ropa</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Camisetas</a></li>
+                        <li><a href="#">Pantalones</a></li>
+                        <li><a href="#">Botas</a></li>
+                        <li><a href="#">Chaquetas</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Accesorios</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Cinturones</a></li>
+                        <li><a href="#">Sombreros</a></li>
+                        <li><a href="#">Gorras</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Destacados</a></h3>
+                    <div class="category-gallery">
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Mujer 1">
+                            <div class="gallery-caption">Nuevo</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Mujer 2">
+                            <div class="gallery-caption">Popular</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Mujer 3">
+                            <div class="gallery-caption">Oferta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mega Menu - Niños -->
+        <div class="mega-menu-container" id="ninos-mega-menu">
+            <div class="mega-menu">
+                <div class="menu-category">
+                    <h3><a href="#">Niños</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Camisetas</a></li>
+                        <li><a href="#">Pantalones</a></li>
+                        <li><a href="#">Botas</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Niñas</a></h3>
+                    <ul class="submenu">
+                        <li><a href="#">Camisetas</a></li>
+                        <li><a href="#">Pantalones</a></li>
+                        <li><a href="#">Botas</a></li>
+                    </ul>
+                </div>
+                <div class="menu-category">
+                    <h3><a href="#">Destacados</a></h3>
+                    <div class="category-gallery">
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Niño 1">
+                            <div class="gallery-caption">Nuevo</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Niño 2">
+                            <div class="gallery-caption">Popular</div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="/api/placeholder/200/100" alt="Producto Niño 3">
+                            <div class="gallery-caption">Oferta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1 id="hero-title">Descubre Nuestra Colección</h1>
+        <p id="hero-text">La más amplia selección de productos con la mejor calidad y al mejor precio. Explora nuestro catálogo completo.</p>
+        <a href="#products" class="btn" id="hero-btn">Ver Productos</a>
+    </section>
+
+    <!-- Featured Products Showcase -->
+    <section class="featured-products">
+        <div class="section-title fade-in">
+            <h2>Producto Destacado</h2>
+        </div>
+        <div class="featured-showcase fade-in">
+            <div class="product-gallery">
+                <img src="/api/placeholder/800/500" alt="Producto Destacado" class="main-image" id="featured-main-image">
+                <div class="gallery-thumbs">
+                    <div class="thumb active" data-image="/api/placeholder/800/500">
+                        <img src="/api/placeholder/800/500" alt="Producto Vista 1">
+                    </div>
+                    <div class="thumb" data-image="/api/placeholder/800/500?text=Vista+2">
+                        <img src="/api/placeholder/800/500?text=Vista+2" alt="Producto Vista 2">
+                    </div>
+                    <div class="thumb" data-image="/api/placeholder/800/500?text=Vista+3">
+                        <img src="/api/placeholder/800/500?text=Vista+3" alt="Producto Vista 3">
+                    </div>
+                    <div class="thumb" data-image="/api/placeholder/800/500?text=Vista+4">
+                        <img src="/api/placeholder/800/500?text=Vista+4" alt="Producto Vista 4">
+                    </div>
+                    <div class="thumb" data-image="/api/placeholder/800/500?text=Vista+5">
+                        <img src="/api/placeholder/800/500?text=Vista+5" alt="Producto Vista 5">
+                    </div>
+                </div>
+            </div>
+            <div class="product-details">
+                <div class="product-brand">Marca Premium</div>
+                <h1 class="product-title">Producto Exclusivo de Temporada</h1>
+                <div class="product-price">
+                    <span class="current-price">$249.99</span>
+                    <span class="old-price">$299.99</span>
+                </div>
+                <div class="product-description">
+                    <p>Este producto exclusivo de nuestra colección premium está fabricado con los mejores materiales y cuenta con un diseño único y elegante. Perfecto para cualquier ocasión, combina comodidad y estilo en una pieza excepcional.</p>
+                </div>
+                <div class="product-options">
+                    <div class="option-title">Colores Disponibles:</div>
+                    <div class="color-options">
+                        <div class="color-option active" style="background-color: #e74c3c;"></div>
+                        <div class="color-option" style="background-color: #3498db;"></div>
+                        <div class="color-option" style="background-color: #2ecc71;"></div>
+                        <div class="color-option" style="background-color: #f39c12;"></div>
+                        <div class="color-option" style="background-color: #9b59b6;"></div>
+                    </div>
+                    <div class="option-title">Tallas Disponibles:</div>
+                    <div class="size-options">
+                        <div class="size-option">S</div>
+                        <div class="size-option active">M</div>
+                        <div class="size-option">L</div>
+                        <div class="size-option">XL</div>
+                        <div class="size-option">XXL</div>
+                    </div>
+                </div>
+                <!-- <div class="quantity-selector">
+                    <button class="quantity-btn" id="decrease-quantity">-</button>
+                    <input type="number" class="quantity-input" value="1" min="1" max="10">
+                    <button class="quantity-btn" id="increase-quantity">+</button>
+                </div> -->
+                <div class="product-actions">
+                    <!-- <button class="add-to-cart">
+                        <i class="fas fa-shopping-cart"></i> Añadir al Carrito
+                    </button> -->
+                    <button class="add-to-wishlist">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Categories -->
+    <section class="featured-categories">
+        <div class="section-title fade-in">
+            <h2>Categorías Destacadas</h2>
+        </div>
+        <div class="categories-grid">
+            <div class="category-card fade-in">
+                <img src="/api/placeholder/600/400" alt="Categoría 1">
+                <div class="category-content">
+                    <h3>Categoría 1</h3>
+                    <p>45 productos</p>
+                </div>
+            </div>
+            <div class="category-card fade-in">
+                <img src="/api/placeholder/600/400" alt="Categoría 2">
+                <div class="category-content">
+                    <h3>Categoría 2</h3>
+                    <p>32 productos</p>
+                </div>
+            </div>
+            <div class="category-card fade-in">
+                <img src="/api/placeholder/600/400" alt="Categoría 3">
+                <div class="category-content">
+                    <h3>Categoría 3</h3>
+                    <p>28 productos</p>
+                </div>
+            </div>
+            <div class="category-card fade-in">
+                <img src="/api/placeholder/600/400" alt="Categoría 4">
+                <div class="category-content">
+                    <h3>Categoría 4</h3>
+                    <p>53 productos</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-section" id="products">
+        <div class="section-title fade-in">
+            <h2>Nuestros Productos</h2>
+        </div>
+        <div class="product-controls fade-in">
+            <div class="product-filters">
+                <button class="filter-btn active">Todos</button>
+                <button class="filter-btn">Nuevos</button>
+                <button class="filter-btn">Populares</button>
+                <button class="filter-btn">En Oferta</button>
+            </div>
+            <div class="sort-options">
+                <select>
+                    <option>Ordenar por: Destacados</option>
+                    <option>Precio: Menor a Mayor</option>
+                    <option>Precio: Mayor a Menor</option>
+                    <option>Nombre: A-Z</option>
+                    <option>Nombre: Z-A</option>
+                </select>
+            </div>
+        </div>
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be loaded dynamically from products.js -->
+        </div>
+    </section>
+
+    <!-- Top Sellers Section -->
+    <section class="top-sellers">
+        <div class="section-title fade-in">
+            <h2>Los Más Vendidos</h2>
+        </div>
+        <div class="swiper-container fade-in">
+            <div class="swiper-wrapper" id="top-sellers-wrapper">
+                <!-- Top sellers will be loaded dynamically from products.js -->
+            </div>
+            <div class="swiper-buttons">
+                <div class="swiper-button swiper-prev">
+                    <i class="fas fa-chevron-left"></i>
+                </div>
+                <div class="swiper-button swiper-next">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Browse by Brands Section -->
+    <section class="browse-brands">
+        <div class="section-title fade-in">
+            <h2>Nuestras Marcas</h2>
+        </div>
+        <div class="brands-grid fade-in">
+            <div class="brand-card">
+                <img src="/api/placeholder/200/100?text=Marca+A" alt="Marca A">
+            </div>
+            <div class="brand-card">
+                <img src="/api/placeholder/200/100?text=Marca+B" alt="Marca B">
+            </div>
+            <div class="brand-card">
+                <img src="/api/placeholder/200/100?text=Marca+C" alt="Marca C">
+            </div>
+            <div class="brand-card">
+                <img src="/api/placeholder/200/100?text=Marca+D" alt="Marca D">
+            </div>
+            <div class="brand-card">
+                <img src="/api/placeholder/200/100?text=Marca+E" alt="Marca E">
+            </div>
+            <div class="brand-card">
+                <img src="/api/placeholder/200/100?text=Marca+F" alt="Marca F">
+            </div>
+        </div>
+    </section>
+
+    <!-- Compare Products Section -->
+    <section class="compare-section">
+        <div class="section-title fade-in">
+            <h2>Comparar Productos</h2>
+        </div>
+        <div class="compare-container fade-in">
+            <div class="compare-header">
+                <div class="compare-title">Productos Seleccionados</div>
+                <div class="compare-actions">
+                    <button class="compare-action" id="clear-compare">Limpiar Todo</button>
+                    <button class="compare-action" id="print-compare">Imprimir</button>
+                </div>
+            </div>
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Precio</th>
+                        <th>Marca</th>
+                        <th>Colores</th>
+                        <th>Tallas</th>
+                        <th>Descripción</th>
+                    </tr>
+                </thead>
+                <tbody id="compare-table-body">
+                    <!-- Compare products will be loaded dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Categorías</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Categoría 1</a></li>
+                    <li><a href="#">Categoría 2</a></li>
+                    <li><a href="#">Categoría 3</a></li>
+                    <li><a href="#">Categoría 4</a></li>
+                    <li><a href="#">Todas las Categorías</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h3>Información</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Sobre Nosotros</a></li>
+                    <li><a href="#">Contacto</a></li>
+                    <li><a href="#">Términos y Condiciones</a></li>
+                    <li><a href="#">Política de Privacidad</a></li>
+                    <li><a href="#">Preguntas Frecuentes</a></li>
+                </ul>
+            </div>
+            <!-- <div class="footer-column">
+                <h3>Mi Cuenta</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Iniciar Sesión</a></li>
+                    <li><a href="#">Registrarse</a></li>
+                    <li><a href="#">Mis Favoritos</a></li>
+                    <li><a href="#">Productos Comparados</a></li>
+                </ul>
+            </div> -->
+            <div class="footer-column" id="contact-us">
+                <h3>Contacto</h3>
+                <div class="contact-info">
+                    <p><i class="fas fa-map-marker-alt"></i> Calle Principal #123, Ciudad</p>
+                    <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+                    <p><i class="fas fa-envelope"></i> info@dosamigos.com</p>
+                    <div class="social-media">
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Dos Amigos. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+    
+    <!-- Quick View Modal -->
+    <div class="quick-view-modal" id="quick-view-modal">
+        <div class="modal-content">
+            <div class="modal-close" id="modal-close">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="featured-showcase">
+                <div class="product-gallery">
+                    <img src="/api/placeholder/800/500" alt="Producto Modal" class="main-image" id="modal-main-image">
+                    <div class="gallery-thumbs" id="modal-gallery-thumbs">
+                        <!-- Modal thumbs will be loaded dynamically -->
+                    </div>
+                </div>
+                <div class="product-details">
+                    <div class="product-brand" id="modal-brand">Marca</div>
+                    <h1 class="product-title" id="modal-title">Producto</h1>
+                    <div class="product-price">
+                        <span class="current-price" id="modal-price">$0.00</span>
+                        <span class="old-price" id="modal-old-price">$0.00</span>
+                    </div>
+                    <div class="product-description" id="modal-description">
+                        <p>Descripción del producto...</p>
+                    </div>
+                    <div class="product-options">
+                        <div class="option-title">Colores Disponibles:</div>
+                        <div class="color-options" id="modal-colors">
+                            <!-- Colors will be loaded dynamically -->
+                        </div>
+                        <div class="option-title">Tallas Disponibles:</div>
+                        <div class="size-options" id="modal-sizes">
+                            <!-- Sizes will be loaded dynamically -->
+                        </div>
+                    </div>
+                    <div class="quantity-selector">
+                        <button class="quantity-btn decrease-quantity">-</button>
+                        <input type="number" class="quantity-input" value="1" min="1" max="10">
+                        <button class="quantity-btn increase-quantity">+</button>
+                    </div>
+                    <div class="product-actions">
+                        <button class="add-to-cart">
+                            <i class="fas fa-shopping-cart"></i> Añadir al Carrito
+                        </button>
+                        <button class="add-to-wishlist">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load product data first -->
+    <script src="products.js"></script>
+    <!-- Then load main script -->
+    <script src="script.js"></script>      
+  </body>
+</html>

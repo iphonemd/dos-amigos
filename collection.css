@@ -1,0 +1,498 @@
+/* Collection Page Styles */
+
+/* Collection Hero */
+.collection-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/300') no-repeat center center;
+  background-size: cover;
+  padding: 120px 5% 60px;
+  text-align: center;
+  color: var(--text-light);
+}
+
+.collection-title h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.collection-title p {
+  font-size: 1.1rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Collection Container */
+.collection-container {
+  display: flex;
+  padding: 3rem 5%;
+  gap: 2rem;
+}
+
+/* Mobile Filter Toggle */
+.mobile-filter-toggle {
+  display: none;
+  justify-content: space-between;
+  padding: 1rem 5%;
+  background-color: var(--secondary);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+#mobile-filter-btn {
+  padding: 8px 15px;
+  background-color: var(--primary);
+  color: var(--text-light);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mobile-search {
+  display: flex;
+  flex: 1;
+  max-width: 300px;
+  margin-left: 10px;
+}
+
+#mobile-search-input {
+  flex: 1;
+  padding: 8px 15px;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+}
+
+#mobile-search-btn {
+  padding: 8px 15px;
+  background-color: var(--accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* Filter Sidebar */
+.filter-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  background-color: var(--text-light);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.filter-header h3 {
+  font-size: 1.3rem;
+  margin: 0;
+}
+
+.close-filter {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-dark);
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.filter-group {
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.filter-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.filter-group h4 {
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+/* Search Box */
+.search-box {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+#search-input {
+  flex: 1;
+  padding: 8px 15px;
+  border: 1px solid var(--border);
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+}
+
+#search-btn {
+  padding: 8px 15px;
+  background-color: var(--accent);
+  color: var(--text-light);
+  border: none;
+  border-radius: 0 4px 4px 0;
+  cursor: pointer;
+}
+
+/* Checkbox List */
+.checkbox-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.filter-checkbox {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.filter-checkbox input {
+  margin-right: 10px;
+}
+
+.count {
+  color: #999;
+  margin-left: 5px;
+}
+
+/* Price Range */
+.price-range {
+  margin-top: 15px;
+}
+
+.range-inputs {
+  position: relative;
+  height: 30px;
+}
+
+.range-inputs input[type="range"] {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  -webkit-appearance: none;
+  z-index: 10;
+  height: 5px;
+  opacity: 0;
+}
+
+.range-inputs input[type="range"]::-webkit-slider-thumb {
+  pointer-events: all;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  -webkit-appearance: none;
+}
+
+.range-inputs:before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: #ddd;
+  border-radius: 5px;
+}
+
+.range-inputs:after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 0%;
+  right: 0%;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 5px;
+}
+
+.range-values {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+/* Filter Sizes and Colors */
+.filter-sizes {
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+.filter-colors {
+  margin-top: 15px;
+  flex-wrap: wrap;
+}
+
+/* Filter Actions */
+.filter-actions {
+  display: flex;
+  gap: 10px;
+}
+
+#apply-filters {
+  flex: 1;
+}
+
+#reset-filters {
+  background: none;
+  border: 1px solid var(--border);
+  padding: 8px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+#reset-filters:hover {
+  background-color: var(--primary);
+  color: var(--text-light);
+  border-color: var(--primary);
+}
+
+/* Collection Content */
+.collection-content {
+  flex: 1;
+}
+
+.collection-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.collection-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.view-options {
+  display: flex;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.view-btn {
+  background: none;
+  border: none;
+  padding: 8px 15px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.view-btn.active {
+  background-color: var(--primary);
+  color: var(--text-light);
+}
+
+#sort-select {
+  padding: 8px 15px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Collection Grid */
+.collection-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Collection List View */
+.collection-grid.list-view {
+  grid-template-columns: 1fr;
+}
+
+.collection-grid.list-view .product-card {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.5rem;
+}
+
+.collection-grid.list-view .product-image {
+  height: 100%;
+}
+
+.collection-grid.list-view .product-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.collection-grid.list-view .product-title {
+  font-size: 1.5rem;
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-btn {
+  padding: 8px 15px;
+  background-color: var(--text-light);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+  background-color: var(--primary);
+  color: var(--text-light);
+  border-color: var(--primary);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-numbers {
+  display: flex;
+  gap: 5px;
+}
+
+.page-number, .page-ellipsis {
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.page-number:hover {
+  background-color: var(--primary);
+  color: var(--text-light);
+  border-color: var(--primary);
+}
+
+.page-number.active {
+  background-color: var(--accent);
+  color: var(--text-light);
+  border-color: var(--accent);
+}
+
+.page-ellipsis {
+  border: none;
+  cursor: default;
+}
+
+.page-ellipsis:hover {
+  background: none;
+  color: inherit;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--text-light);
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+}
+
+.empty-state i {
+  font-size: 3rem;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .collection-container {
+      flex-direction: column;
+  }
+  
+  .filter-sidebar {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: -100%;
+      height: 100%;
+      z-index: 1000;
+      border-radius: 0;
+      padding: 2rem;
+      overflow-y: auto;
+      transition: left 0.3s ease;
+  }
+  
+  .filter-sidebar.active {
+      left: 0;
+  }
+  
+  .close-filter {
+      display: block;
+  }
+  
+  .mobile-filter-toggle {
+      display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .collection-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+  }
+  
+  .collection-controls {
+      width: 100%;
+      justify-content: space-between;
+  }
+  
+  .pagination {
+      flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 576px) {
+  .collection-title h1 {
+      font-size: 2rem;
+  }
+  
+  .collection-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+  
+  .collection-grid.list-view .product-card {
+      grid-template-columns: 1fr;
+  }
+  
+  .page-numbers {
+      display: none;
+  }
+}

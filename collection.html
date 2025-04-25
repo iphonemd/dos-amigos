@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CatálogoPlus - Colección de Productos</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="collection.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>CatálogoPlus</h2>
+            <p>Cargando experiencia...</p>
+        </div>
+    </div>
+
+    <!-- Header (same as index.html) -->
+    <!-- Header content would be the same as index.html -->
+    <header>
+        <!-- Header content from index.html -->
+    </header>
+
+    <!-- Collection Hero Section -->
+    <section class="collection-hero">
+        <div class="collection-title">
+            <h1 id="collection-heading">Colección</h1>
+            <p id="collection-description">Explora nuestra selección de productos.</p>
+        </div>
+    </section>
+
+    <!-- Collection Content -->
+    <section class="collection-container">
+        <!-- Search and Filter Options in Mobile -->
+        <div class="mobile-filter-toggle">
+            <button id="mobile-filter-btn">
+                <i class="fas fa-filter"></i> Filtros
+            </button>
+            <div class="mobile-search">
+                <input type="text" id="mobile-search-input" placeholder="Buscar productos...">
+                <button id="mobile-search-btn"><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+
+        <!-- Sidebar Filter -->
+        <div class="filter-sidebar" id="filter-sidebar">
+            <div class="filter-header">
+                <h3>Filtros</h3>
+                <button class="close-filter" id="close-filter"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <!-- Search Box -->
+            <div class="filter-group">
+                <h4>Buscar</h4>
+                <div class="search-box">
+                    <input type="text" id="search-input" placeholder="Buscar productos...">
+                    <button id="search-btn"><i class="fas fa-search"></i></button>
+                </div>
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="filter-group">
+                <h4>Categoría</h4>
+                <div class="checkbox-list">
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="category" value="all" checked>
+                        <span class="checkbox-text">Todos</span>
+                        <span class="count">(120)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="category" value="boots">
+                        <span class="checkbox-text">Botas</span>
+                        <span class="count">(45)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="category" value="hats">
+                        <span class="checkbox-text">Sombreros</span>
+                        <span class="count">(32)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="category" value="jackets">
+                        <span class="checkbox-text">Chaquetas</span>
+                        <span class="count">(28)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="category" value="accessories">
+                        <span class="checkbox-text">Accesorios</span>
+                        <span class="count">(15)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Brand Filter -->
+            <div class="filter-group">
+                <h4>Marca</h4>
+                <div class="checkbox-list">
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="brand" value="all" checked>
+                        <span class="checkbox-text">Todas</span>
+                        <span class="count">(120)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="brand" value="marca-a">
+                        <span class="checkbox-text">Marca A</span>
+                        <span class="count">(42)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="brand" value="marca-b">
+                        <span class="checkbox-text">Marca B</span>
+                        <span class="count">(35)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="brand" value="marca-c">
+                        <span class="checkbox-text">Marca C</span>
+                        <span class="count">(28)</span>
+                    </label>
+                    <label class="filter-checkbox">
+                        <input type="checkbox" name="brand" value="marca-d">
+                        <span class="checkbox-text">Marca D</span>
+                        <span class="count">(15)</span>
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Price Range Filter -->
+            <div class="filter-group">
+                <h4>Precio</h4>
+                <div class="price-range">
+                    <div class="range-inputs">
+                        <input type="range" id="price-min" min="0" max="500" value="0" step="10">
+                        <input type="range" id="price-max" min="0" max="500" value="500" step="10">
+                    </div>
+                    <div class="range-values">
+                        <span id="price-min-value">$0</span>
+                        <span id="price-max-value">$500</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Size Filter -->
+            <div class="filter-group">
+                <h4>Talla</h4>
+                <div class="size-options filter-sizes">
+                    <div class="size-option" data-size="xs">XS</div>
+                    <div class="size-option" data-size="s">S</div>
+                    <div class="size-option" data-size="m">M</div>
+                    <div class="size-option" data-size="l">L</div>
+                    <div class="size-option" data-size="xl">XL</div>
+                    <div class="size-option" data-size="xxl">XXL</div>
+                </div>
+            </div>
+            
+            <!-- Color Filter -->
+            <div class="filter-group">
+                <h4>Color</h4>
+                <div class="color-options filter-colors">
+                    <div class="color-option" style="background-color: #e74c3c;" data-color="#e74c3c"></div>
+                    <div class="color-option" style="background-color: #3498db;" data-color="#3498db"></div>
+                    <div class="color-option" style="background-color: #2ecc71;" data-color="#2ecc71"></div>
+                    <div class="color-option" style="background-color: #f1c40f;" data-color="#f1c40f"></div>
+                    <div class="color-option" style="background-color: #9b59b6;" data-color="#9b59b6"></div>
+                    <div class="color-option" style="background-color: #34495e;" data-color="#34495e"></div>
+                    <div class="color-option" style="background-color: #1abc9c;" data-color="#1abc9c"></div>
+                    <div class="color-option" style="background-color: #e67e22;" data-color="#e67e22"></div>
+                </div>
+            </div>
+            
+            <!-- Filter Actions -->
+            <div class="filter-actions">
+                <button id="apply-filters" class="btn">Aplicar Filtros</button>
+                <button id="reset-filters">Restablecer</button>
+            </div>
+        </div>
+
+        <!-- Product Listing -->
+        <div class="collection-content">
+            <div class="collection-header">
+                <div class="results-count">
+                    Mostrando <span id="product-count">120</span> productos
+                </div>
+                <div class="collection-controls">
+                    <div class="view-options">
+                        <button class="view-btn active" data-view="grid">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="view-btn" data-view="list">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                    <div class="sort-options">
+                        <select id="sort-select">
+                            <option value="featured">Destacados</option>
+                            <option value="price-low">Precio: Menor a Mayor</option>
+                            <option value="price-high">Precio: Mayor a Menor</option>
+                            <option value="name-asc">Nombre: A-Z</option>
+                            <option value="name-desc">Nombre: Z-A</option>
+                            <option value="newest">Más Recientes</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products Grid -->
+            <div class="products-grid collection-grid" id="collection-products">
+                <!-- Products will be loaded dynamically -->
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <button class="pagination-btn" id="prev-page" disabled>
+                    <i class="fas fa-chevron-left"></i> Anterior
+                </button>
+                <div class="page-numbers" id="page-numbers">
+                    <span class="page-number active">1</span>
+                    <span class="page-number">2</span>
+                    <span class="page-number">3</span>
+                    <span class="page-ellipsis">...</span>
+                    <span class="page-number">10</span>
+                </div>
+                <button class="pagination-btn" id="next-page">
+                    Siguiente <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (same as index.html) -->
+    <footer>
+        <!-- Footer content from index.html -->
+    </footer>
+    
+    <!-- Quick View Modal (same as index.html) -->
+    <div class="quick-view-modal" id="quick-view-modal">
+        <!-- Modal content from index.html -->
+    </div>
+
+    <!-- Load product data first -->
+    <script src="products.js"></script>
+    <!-- Then load main script -->
+    <script src="script.js"></script>
+    <!-- Load collection specific scripts -->
+    <script src="collection.js"></script>
+</body>
+</html>
