@@ -9,6 +9,7 @@ function initCollection() {
   const urlParams = new URLSearchParams(window.location.search);
   const collectionType = urlParams.get('type') || 'all';
   const collectionValue = urlParams.get('value') || '';
+  console.log('initcollection function params', urlParams)
   
   // Set page title and description based on collection type
   updateCollectionTitle(collectionType, collectionValue);
@@ -166,6 +167,7 @@ function applyCurrentFilters(products) {
     result = result.filter(product => 
         product.tags && product.tags.includes(audienceFilter));
   }
+  console.log('this are the urlparams in applycurrentfilters(products)', urlParams)
 
   // Get all active checkboxes and filters
   // Categories
@@ -364,6 +366,7 @@ function updatePagination(currentPage, totalPages) {
 // Helper function to get query parameters
 function getQueryParam(param) {
   const urlParams = new URLSearchParams(window.location.search);
+  console.log('getquerryparam function', urlParams)
   return urlParams.get(param) || '';
 }
 
