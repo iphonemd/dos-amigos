@@ -3,14 +3,14 @@ const productData = {
   1: {
       id: 1,
       brand: 'Marca A',
-      title: 'Producto Premium 1',
+      title: 'Botas de trabajo',
       price: '$129.99',
       oldPrice: '$159.99',
-      description: 'Este producto premium está fabricado con materiales de alta calidad y diseñado para ofrecer máxima comodidad y estilo. Perfecto para cualquier ocasión y compatible con una amplia variedad de combinaciones de vestimenta.',
+      description: 'Este producto premium está fabricado con materiales de alta calidad y diseñado para ofrecer máxima comodidad y durabilidad. Perfecto para cualquir tipo de trabajo.',
       colors: ['#e74c3c', '#3498db', '#2ecc71'],
-      sizes: ['S', 'M', 'L'],
+      sizes: ['7', '8', '9'],
       images: [
-          '/api/placeholder/800/500?text=Producto+1',
+          'images/boots/boots_001.webp',
           '/api/placeholder/800/500?text=Producto+1+Vista+2',
           '/api/placeholder/800/500?text=Producto+1+Vista+3',
           '/api/placeholder/800/500?text=Producto+1+Vista+4'
@@ -34,7 +34,7 @@ const productData = {
       colors: ['#2c3e50', '#9b59b6'],
       sizes: ['M', 'L', 'XL'],
       images: [
-          '/api/placeholder/800/500?text=Producto+2',
+          'images/hats/hats_001.webp',
           '/api/placeholder/800/500?text=Producto+2+Vista+2',
           '/api/placeholder/800/500?text=Producto+2+Vista+3',
           '/api/placeholder/800/500?text=Producto+2+Vista+4'
@@ -58,7 +58,7 @@ const productData = {
       colors: ['#f1c40f', '#e67e22', '#95a5a6'],
       sizes: ['S', 'M', 'L', 'XL'],
       images: [
-          '/api/placeholder/800/500?text=Producto+3',
+          'images/jackets/jackets_001.webp',
           '/api/placeholder/800/500?text=Producto+3+Vista+2',
           '/api/placeholder/800/500?text=Producto+3+Vista+3',
           '/api/placeholder/800/500?text=Producto+3+Vista+4'
@@ -79,7 +79,7 @@ const productData = {
       colors: ['#34495e', '#16a085'],
       sizes: ['S', 'M', 'L'],
       images: [
-          '/api/placeholder/800/500?text=Producto+4',
+          'images/boots/boots_002.webp',
           '/api/placeholder/800/500?text=Producto+4+Vista+2',
           '/api/placeholder/800/500?text=Producto+4+Vista+3',
           '/api/placeholder/800/500?text=Producto+4+Vista+4'
@@ -103,7 +103,7 @@ const productData = {
       colors: ['#e74c3c', '#3498db', '#2ecc71'],
       sizes: ['S', 'M', 'L'],
       images: [
-          '/api/placeholder/800/500?text=Producto+5',
+          'images/belts/belts_001.webp',
           '/api/placeholder/800/500?text=Producto+5+Vista+2',
           '/api/placeholder/800/500?text=Producto+5+Vista+3',
           '/api/placeholder/800/500?text=Producto+5+Vista+4'
@@ -127,7 +127,7 @@ const productData = {
       colors: ['#2c3e50', '#9b59b6'],
       sizes: ['M', 'L', 'XL'],
       images: [
-          '/api/placeholder/800/500?text=Producto+6',
+          'images/hats/hats_002.webp',
           '/api/placeholder/800/500?text=Producto+6+Vista+2',
           '/api/placeholder/800/500?text=Producto+6+Vista+3',
           '/api/placeholder/800/500?text=Producto+6+Vista+4'
@@ -151,7 +151,7 @@ const productData = {
       colors: ['#f1c40f', '#e67e22'],
       sizes: ['S', 'M', 'L'],
       images: [
-          '/api/placeholder/800/500?text=Producto+7',
+          'images/jackets/jackets_002.webp',
           '/api/placeholder/800/500?text=Producto+7+Vista+2',
           '/api/placeholder/800/500?text=Producto+7+Vista+3',
           '/api/placeholder/800/500?text=Producto+7+Vista+4'
@@ -175,7 +175,7 @@ const productData = {
       colors: ['#34495e', '#16a085'],
       sizes: ['S', 'M', 'L'],
       images: [
-          '/api/placeholder/800/500?text=Producto+8',
+          'images/belts/belts_002.webp',
           '/api/placeholder/800/500?text=Producto+8+Vista+2',
           '/api/placeholder/800/500?text=Producto+8+Vista+3',
           '/api/placeholder/800/500?text=Producto+8+Vista+4'
@@ -192,7 +192,7 @@ const productData = {
 };
 
 // Additional products to demonstrate the collection page
-for (let i = 9; i <= 20; i++) {
+/*for (let i = 9; i <= 20; i++) {
   const categories = ['boots', 'hats', 'jackets', 'accessories'];
   const brands = ['Marca A', 'Marca B', 'Marca C', 'Marca D'];
   const audienceTypes = ['hombre', 'mujer', 'niños', 'unisex'];
@@ -236,7 +236,7 @@ for (let i = 9; i <= 20; i++) {
           styleTypes[Math.floor(Math.random() * styleTypes.length)]
       ]
   };
-}
+}*/
 
 // Comparison data (simulated for demo)
 const compareData = [

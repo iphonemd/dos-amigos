@@ -1,576 +1,2471 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CatálogoPlus - Colección de Productos</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0" />
+    <title>Dos Amigos - Colección de Productos</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/ScrollTrigger.min.js"></script>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="collection.css">
-</head>
-<body>
+     <link
+      rel="stylesheet"
+      href="styles.css" /> 
+    <link
+      rel="stylesheet"
+      href="collection.css" />
+    <style>
+      /* Additional styles to ensure product cards display properly */
+      .loading-indicator {
+        text-align: center;
+        padding: 2rem;
+        color: #777;
+      }
+
+      .loading-indicator i {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: var(--accent);
+      }
+
+      .product-card {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease, transform 0.5s ease;
+      }
+
+      .product-card.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .debug-panel {
+        display: none; /* Hidden by default */
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 10px;
+        font-family: monospace;
+        z-index: 9999;
+        max-height: 200px;
+        overflow-y: auto;
+      }
+
+      .debug-toggle {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Fix modal layering issues */
+      .quick-view-modal {
+        z-index: 9999 !important; /* Ensure highest z-index */
+      }
+
+      .quick-view-modal .modal-content {
+        max-height: 90vh;
+        overflow-y: auto;
+        position: relative;
+        z-index: 10000;
+        background-color: white;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Ensure loading overlay stays on top */
+      .loading-overlay {
+        z-index: 99999;
+      }
+    </style>
+  </head>
+  <body>
     <!-- Loading Overlay -->
     <div class="loading-overlay">
-        <div class="loading-content">
-            <div class="loading-spinner"></div>
-            <h2>CatálogoPlus</h2>
-            <p>Cargando experiencia...</p>
-        </div>
+      <div class="loading-content">
+        <div class="loading-spinner"></div>
+        <h2>Dos Amigos</h2>
+        <p>Cargando experiencia...</p>
+      </div>
     </div>
 
     <!-- Header -->
-
     <header>
       <div class="header-container">
-          <a href="index.html" class="logo">
-              <i class="fas fa-layer-group"></i>
-              Dos Amigos
-          </a>
-          <div class="top-nav">
-              <div class="top-nav-item">
-                  <i class="fas fa-search"></i>
-              </div>
-              <div class="top-nav-item">
-                  <i class="fas fa-heart"></i>
-              </div>
-              <div class="top-nav-item">
-                  <i class="fas fa-random"></i>
-              </div>
-              <button class="language-toggle" id="language-toggle">EN</button>
-              <button class="mobile-menu-toggle" id="mobile-menu-toggle">
-                  <i class="fas fa-bars"></i>
-              </button>
+        <a
+          href="index.html"
+          class="logo">
+          <i class="fas fa-layer-group"></i>
+          Dos Amigos
+        </a>
+        <div class="top-nav">
+          <div class="top-nav-item">
+            <i class="fas fa-search"></i>
           </div>
+          <div class="top-nav-item">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="top-nav-item">
+            <i class="fas fa-random"></i>
+          </div>
+          <button
+            class="language-toggle"
+            id="language-toggle">
+            EN
+          </button>
+          <button
+            class="mobile-menu-toggle"
+            id="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
       </div>
 
-      <div class="main-nav" id="main-nav">
-          <ul class="nav-list">
-              <li class="nav-item">
-                  <button class="dropdown-button" id="productos-button">
-                      Productos <i class="fas fa-chevron-down"></i>
-                  </button>
-              </li>
-              <li class="nav-item">
-                  <button class="dropdown-button" id="marcas-button">
-                      Marcas <i class="fas fa-chevron-down"></i>
-                  </button>
-              </li>
-              <li class="nav-item">
-                  <button class="dropdown-button" id="hombres-button">
-                      Hombres <i class="fas fa-chevron-down"></i>
-                  </button>
-              </li>
-              <li class="nav-item">
-                  <button class="dropdown-button" id="mujeres-button">
-                      Mujeres <i class="fas fa-chevron-down"></i>
-                  </button>
-              </li>
-              <li class="nav-item">
-                  <button class="dropdown-button" id="ninos-button">
-                      Niños <i class="fas fa-chevron-down"></i>
-                  </button>
-              </li>
-              <li class="nav-item">
-                  <a href="#" class="nav-link">Ofertas</a>
-              </li>
-              <li class="nav-item">
-                <a href="collection.html" class="nav-link">Ver Todo</a>
-            </li>
-              <li class="nav-item">
-                  <a href="#contact-us" class="nav-link">Contacto</a>
-              </li>
-          </ul>
+      <div
+        class="main-nav"
+        id="main-nav">
+        <ul class="nav-list">
+          <li class="nav-item">
+            <button
+              class="dropdown-button"
+              id="productos-button">
+              Productos <i class="fas fa-chevron-down"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="dropdown-button"
+              id="marcas-button">
+              Marcas <i class="fas fa-chevron-down"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="dropdown-button"
+              id="hombres-button">
+              Hombres <i class="fas fa-chevron-down"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="dropdown-button"
+              id="mujeres-button">
+              Mujeres <i class="fas fa-chevron-down"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              class="dropdown-button"
+              id="ninos-button">
+              Niños <i class="fas fa-chevron-down"></i>
+            </button>
+          </li>
+          <li class="nav-item">
+            <a
+              href="#"
+              class="nav-link"
+              >Ofertas</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              href="collection.html"
+              class="nav-link"
+              >Ver Todo</a
+            >
+          </li>
+          <li class="nav-item">
+            <a
+              href="#contact-us"
+              class="nav-link"
+              >Contacto</a
+            >
+          </li>
+        </ul>
       </div>
 
-      <!-- Mega Menu - Productos  use this as referenco to link all the products on the menu--> 
-      <div class="mega-menu-container" id="productos-mega-menu">
-          <div class="mega-menu">
-              <div class="menu-category">
-                  <h3><a href="collection.html?type=category&value=boots">Botas</a></h3>
-                  <ul class="submenu">
-                      <li><a href="collection.html?type=category&value=boots&filter=hombre">Botas para Hombre</a></li>
-                      <li><a href="collection.html?type=category&value=boots&filter=mujer">Botas para Mujer</a></li>
-                      <li><a href="collection.html?type=category&value=boots&filter=ninos">Botas para Niños</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Sombreros 2</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Sombreros 2.1</a></li>
-                      <li><a href="#">Sombreros 2.2</a></li>
-                      <li><a href="#">Sombreros 2.3</a></li>
-                      <li><a href="#">Sombreros 2.4</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Cinturones 3</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Cinturones 3.1</a></li>
-                      <li><a href="#">Cinturones 3.2</a></li>
-                      <li><a href="#">Cinturones 3.3</a></li>
-                      <li><a href="#">Cinturones 3.4</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Gorras 4</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Gorras 4.1</a></li>
-                      <li><a href="#">Gorras 4.2</a></li>
-                      <li><a href="#">Gorras 4.3</a></li>
-                      <li><a href="#">Gorras 4.4</a></li>
-                  </ul>
-              </div>
+      <!-- Mega Menu - Productos -->
+      <div
+        class="mega-menu-container"
+        id="productos-mega-menu">
+        <div class="mega-menu">
+          <div class="menu-category">
+            <h3>
+              <a href="collection.html?type=category&value=boots">Botas</a>
+            </h3>
+            <ul class="submenu">
+              <li>
+                <a
+                  href="collection.html?type=category&value=boots&filter=hombre"
+                  >Botas para Hombre</a
+                >
+              </li>
+              <li>
+                <a href="collection.html?type=category&value=boots&filter=mujer"
+                  >Botas para Mujer</a
+                >
+              </li>
+              <li>
+                <a href="collection.html?type=category&value=boots&filter=ninos"
+                  >Botas para Niños</a
+                >
+              </li>
+            </ul>
           </div>
+          <div class="menu-category">
+            <h3>
+              <a href="collection.html?type=category&value=hats">Sombreros</a>
+            </h3>
+            <ul class="submenu">
+              <li>
+                <a href="collection.html?type=category&value=hats&filter=hombre"
+                  >Sombreros para Hombre</a
+                >
+              </li>
+              <li>
+                <a href="collection.html?type=category&value=hats&filter=mujer"
+                  >Sombreros para Mujer</a
+                >
+              </li>
+              <li>
+                <a href="collection.html?type=category&value=hats&filter=ninos"
+                  >Sombreros para Niños</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="menu-category">
+            <h3>
+              <a href="collection.html?type=category&value=jackets"
+                >Chamarras</a
+              >
+            </h3>
+            <ul class="submenu">
+              <li>
+                <a
+                  href="collection.html?type=category&value=jackets&filter=hombre"
+                  >Chamarras para Hombre</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=jackets&filter=mujer"
+                  >Chamarras para Mujer</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=jackets&filter=ninos"
+                  >Chamarras para Niños</a
+                >
+              </li>
+            </ul>
+          </div>
+          <div class="menu-category">
+            <h3>
+              <a href="collection.html?type=category&value=accessories"
+                >Accesorios</a
+              >
+            </h3>
+            <ul class="submenu">
+              <li>
+                <a
+                  href="collection.html?type=category&value=accessories&filter=hombre"
+                  >Accesorios para Hombre</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=accessories&filter=mujer"
+                  >Accesorios para Mujer</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=accessories&filter=ninos"
+                  >Accesorios para Niños</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-      
+
       <!-- Mega Menu - Marcas -->
-      <div class="mega-menu-container" id="marcas-mega-menu">
-          <div class="mega-menu">
-              <div class="menu-category">
-                  <h3><a href="#">Marcas Destacadas</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Marca Premium A</a></li>
-                      <li><a href="#">Marca Premium B</a></li>
-                      <li><a href="#">Marca Premium C</a></li>
-                      <li><a href="#">Marca Premium D</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Marcas Populares</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Marca Popular A</a></li>
-                      <li><a href="#">Marca Popular B</a></li>
-                      <li><a href="#">Marca Popular C</a></li>
-                      <li><a href="#">Marca Popular D</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Todas las Marcas</a></h3>
-                  <div class="category-gallery">
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Marca A">
-                          <div class="gallery-caption">Marca A</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Marca B">
-                          <div class="gallery-caption">Marca B</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Marca C">
-                          <div class="gallery-caption">Marca C</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Marca D">
-                          <div class="gallery-caption">Marca D</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Marca E">
-                          <div class="gallery-caption">Marca E</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Marca F">
-                          <div class="gallery-caption">Marca F</div>
-                      </div>
-                  </div>
-              </div>
+      <div
+        class="mega-menu-container"
+        id="marcas-mega-menu">
+        <div class="mega-menu">
+          <div class="menu-category">
+            <h3><a href="#">Marcas Destacadas</a></h3>
+            <ul class="submenu">
+              <li>
+                <a href="collection.html?type=brand&value=marca-a">Marca A</a>
+              </li>
+              <li>
+                <a href="collection.html?type=brand&value=marca-b">Marca B</a>
+              </li>
+              <li>
+                <a href="collection.html?type=brand&value=marca-c">Marca C</a>
+              </li>
+              <li>
+                <a href="collection.html?type=brand&value=marca-d">Marca D</a>
+              </li>
+            </ul>
           </div>
+          <div class="menu-category">
+            <h3><a href="#">Marcas Populares</a></h3>
+            <ul class="submenu">
+              <li><a href="#">Marca Popular A</a></li>
+              <li><a href="#">Marca Popular B</a></li>
+              <li><a href="#">Marca Popular C</a></li>
+              <li><a href="#">Marca Popular D</a></li>
+            </ul>
+          </div>
+          <div class="menu-category">
+            <h3><a href="#">Todas las Marcas</a></h3>
+            <div class="category-gallery">
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Marca A" />
+                <div class="gallery-caption">Marca A</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Marca B" />
+                <div class="gallery-caption">Marca B</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Marca C" />
+                <div class="gallery-caption">Marca C</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Marca D" />
+                <div class="gallery-caption">Marca D</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      
+
       <!-- Mega Menu - Hombres -->
-      <div class="mega-menu-container" id="hombres-mega-menu">
-          <div class="mega-menu">
-              <div class="menu-category">
-                  <h3><a href="#">Ropa</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Camisetas</a></li>
-                      <li><a href="#">Pantalones</a></li>
-                      <li><a href="#">Chaquetas</a></li>
-                      <li><a href="#">Botas</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Accesorios</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Sombreros</a></li>
-                      <li><a href="#">Gorras</a></li>
-                      <li><a href="#">Cinturones</a></li>
-                      <!-- <li><a href="#">Gafas</a></li> -->
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Destacados</a></h3>
-                  <div class="category-gallery">
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Hombre 1">
-                          <div class="gallery-caption">Nuevo</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Hombre 2">
-                          <div class="gallery-caption">Popular</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Hombre 3">
-                          <div class="gallery-caption">Oferta</div>
-                      </div>
-                  </div>
-              </div>
+      <div
+        class="mega-menu-container"
+        id="hombres-mega-menu">
+        <div class="mega-menu">
+          <div class="menu-category">
+            <h3><a href="collection.html?filter=hombre">Ropa</a></h3>
+            <ul class="submenu">
+              <li>
+                <a
+                  href="collection.html?type=category&value=boots&filter=hombre"
+                  >Botas</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=jackets&filter=hombre"
+                  >Chamarras</a
+                >
+              </li>
+              <li>
+                <a href="collection.html?type=category&value=hats&filter=hombre"
+                  >Sombreros</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=accessories&filter=hombre"
+                  >Accesorios</a
+                >
+              </li>
+            </ul>
           </div>
+          <div class="menu-category">
+            <h3><a href="#">Destacados</a></h3>
+            <div class="category-gallery">
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Hombre 1" />
+                <div class="gallery-caption">Nuevo</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Hombre 2" />
+                <div class="gallery-caption">Popular</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Hombre 3" />
+                <div class="gallery-caption">Oferta</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      
+
       <!-- Mega Menu - Mujeres -->
-      <div class="mega-menu-container" id="mujeres-mega-menu">
-          <div class="mega-menu">
-              <div class="menu-category">
-                  <h3><a href="#">Ropa</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Camisetas</a></li>
-                      <li><a href="#">Pantalones</a></li>
-                      <li><a href="#">Botas</a></li>
-                      <li><a href="#">Chaquetas</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Accesorios</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Cinturones</a></li>
-                      <li><a href="#">Sombreros</a></li>
-                      <li><a href="#">Gorras</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Destacados</a></h3>
-                  <div class="category-gallery">
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Mujer 1">
-                          <div class="gallery-caption">Nuevo</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Mujer 2">
-                          <div class="gallery-caption">Popular</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Mujer 3">
-                          <div class="gallery-caption">Oferta</div>
-                      </div>
-                  </div>
-              </div>
+      <div
+        class="mega-menu-container"
+        id="mujeres-mega-menu">
+        <div class="mega-menu">
+          <div class="menu-category">
+            <h3><a href="collection.html?filter=mujer">Ropa</a></h3>
+            <ul class="submenu">
+              <li>
+                <a href="collection.html?type=category&value=boots&filter=mujer"
+                  >Botas</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=jackets&filter=mujer"
+                  >Chamarras</a
+                >
+              </li>
+              <li>
+                <a href="collection.html?type=category&value=hats&filter=mujer"
+                  >Sombreros</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=accessories&filter=mujer"
+                  >Accesorios</a
+                >
+              </li>
+            </ul>
           </div>
+          <div class="menu-category">
+            <h3><a href="#">Destacados</a></h3>
+            <div class="category-gallery">
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Mujer 1" />
+                <div class="gallery-caption">Nuevo</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Mujer 2" />
+                <div class="gallery-caption">Popular</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Mujer 3" />
+                <div class="gallery-caption">Oferta</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      
+
       <!-- Mega Menu - Niños -->
-      <div class="mega-menu-container" id="ninos-mega-menu">
-          <div class="mega-menu">
-              <div class="menu-category">
-                  <h3><a href="#">Niños</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Camisetas</a></li>
-                      <li><a href="#">Pantalones</a></li>
-                      <li><a href="#">Botas</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Niñas</a></h3>
-                  <ul class="submenu">
-                      <li><a href="#">Camisetas</a></li>
-                      <li><a href="#">Pantalones</a></li>
-                      <li><a href="#">Botas</a></li>
-                  </ul>
-              </div>
-              <div class="menu-category">
-                  <h3><a href="#">Destacados</a></h3>
-                  <div class="category-gallery">
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Niño 1">
-                          <div class="gallery-caption">Nuevo</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Niño 2">
-                          <div class="gallery-caption">Popular</div>
-                      </div>
-                      <div class="gallery-item">
-                          <img src="/api/placeholder/200/100" alt="Producto Niño 3">
-                          <div class="gallery-caption">Oferta</div>
-                      </div>
-                  </div>
-              </div>
+      <div
+        class="mega-menu-container"
+        id="ninos-mega-menu">
+        <div class="mega-menu">
+          <div class="menu-category">
+            <h3><a href="collection.html?filter=ninos">Ropa</a></h3>
+            <ul class="submenu">
+              <li>
+                <a href="collection.html?type=category&value=boots&filter=ninos"
+                  >Botas</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=jackets&filter=ninos"
+                  >Chamarras</a
+                >
+              </li>
+              <li>
+                <a href="collection.html?type=category&value=hats&filter=ninos"
+                  >Sombreros</a
+                >
+              </li>
+              <li>
+                <a
+                  href="collection.html?type=category&value=accessories&filter=ninos"
+                  >Accesorios</a
+                >
+              </li>
+            </ul>
           </div>
+          <div class="menu-category">
+            <h3><a href="#">Destacados</a></h3>
+            <div class="category-gallery">
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Niño 1" />
+                <div class="gallery-caption">Nuevo</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Niño 2" />
+                <div class="gallery-caption">Popular</div>
+              </div>
+              <div class="gallery-item">
+                <img
+                  src="/api/placeholder/200/100"
+                  alt="Producto Niño 3" />
+                <div class="gallery-caption">Oferta</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-  </header>
+    </header>
 
     <!-- Collection Hero Section -->
     <section class="collection-hero">
-        <div class="collection-title">
-            <h1 id="collection-heading">Colección</h1>
-            <p id="collection-description">Explora nuestra selección de productos.</p>
-        </div>
+      <div class="collection-title">
+        <h1 id="collection-heading">Colección</h1>
+        <p id="collection-description">
+          Explora nuestra selección de productos.
+        </p>
+      </div>
     </section>
 
     <div class="breadcrumbs">
       <div class="container">
-          <a href="index.html">Inicio</a> &gt; 
-          <span id="breadcrumb-collection">Colección</span>
+        <a href="index.html">Inicio</a> &gt;
+        <span id="breadcrumb-collection">Colección</span>
       </div>
-  </div>
+    </div>
 
     <!-- Collection Content -->
     <section class="collection-container">
-        <!-- Search and Filter Options in Mobile -->
-        <div class="mobile-filter-toggle">
-            <button id="mobile-filter-btn">
-                <i class="fas fa-filter"></i> Filtros
-            </button>
-            <div class="mobile-search">
-                <input type="text" id="mobile-search-input" placeholder="Buscar productos...">
-                <button id="mobile-search-btn"><i class="fas fa-search"></i></button>
-            </div>
+      <!-- Search and Filter Options in Mobile -->
+      <div class="mobile-filter-toggle">
+        <button id="mobile-filter-btn">
+          <i class="fas fa-filter"></i> Filtros
+        </button>
+        <div class="mobile-search">
+          <input
+            type="text"
+            id="mobile-search-input"
+            placeholder="Buscar productos..." />
+          <button id="mobile-search-btn"><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+
+      <!-- Sidebar Filter -->
+      <div
+        class="filter-sidebar"
+        id="filter-sidebar">
+        <div class="filter-header">
+          <h3>Filtros</h3>
+          <button
+            class="close-filter"
+            id="close-filter">
+            <i class="fas fa-times"></i>
+          </button>
         </div>
 
-        <!-- Sidebar Filter -->
-        <div class="filter-sidebar" id="filter-sidebar">
-            <div class="filter-header">
-                <h3>Filtros</h3>
-                <button class="close-filter" id="close-filter"><i class="fas fa-times"></i></button>
-            </div>
-            
-            <!-- Search Box -->
-            <div class="filter-group">
-                <h4>Buscar</h4>
-                <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Buscar productos...">
-                    <button id="search-btn"><i class="fas fa-search"></i></button>
-                </div>
-            </div>
-            
-            <!-- Category Filter -->
-            <div class="filter-group">
-                <h4>Categoría</h4>
-                <div class="checkbox-list">
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="category" value="all" checked>
-                        <span class="checkbox-text">Todos</span>
-                        <span class="count">(120)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="category" value="boots">
-                        <span class="checkbox-text">Botas</span>
-                        <span class="count">(45)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="category" value="hats">
-                        <span class="checkbox-text">Sombreros</span>
-                        <span class="count">(32)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="category" value="jackets">
-                        <span class="checkbox-text">Chaquetas</span>
-                        <span class="count">(28)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="category" value="accessories">
-                        <span class="checkbox-text">Accesorios</span>
-                        <span class="count">(15)</span>
-                    </label>
-                </div>
-            </div>
-            
-            <!-- Brand Filter -->
-            <div class="filter-group">
-                <h4>Marca</h4>
-                <div class="checkbox-list">
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="brand" value="all" checked>
-                        <span class="checkbox-text">Todas</span>
-                        <span class="count">(120)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="brand" value="marca-a">
-                        <span class="checkbox-text">Marca A</span>
-                        <span class="count">(42)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="brand" value="marca-b">
-                        <span class="checkbox-text">Marca B</span>
-                        <span class="count">(35)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="brand" value="marca-c">
-                        <span class="checkbox-text">Marca C</span>
-                        <span class="count">(28)</span>
-                    </label>
-                    <label class="filter-checkbox">
-                        <input type="checkbox" name="brand" value="marca-d">
-                        <span class="checkbox-text">Marca D</span>
-                        <span class="count">(15)</span>
-                    </label>
-                </div>
-            </div>
-            
-            <!-- Price Range Filter -->
-            <div class="filter-group">
-                <h4>Precio</h4>
-                <div class="price-range">
-                    <div class="range-inputs">
-                        <input type="range" id="price-min" min="0" max="500" value="0" step="10">
-                        <input type="range" id="price-max" min="0" max="500" value="500" step="10">
-                    </div>
-                    <div class="range-values">
-                        <span id="price-min-value">$0</span>
-                        <span id="price-max-value">$500</span>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Size Filter -->
-            <div class="filter-group">
-                <h4>Talla</h4>
-                <div class="size-options filter-sizes">
-                    <div class="size-option" data-size="xs">XS</div>
-                    <div class="size-option" data-size="s">S</div>
-                    <div class="size-option" data-size="m">M</div>
-                    <div class="size-option" data-size="l">L</div>
-                    <div class="size-option" data-size="xl">XL</div>
-                    <div class="size-option" data-size="xxl">XXL</div>
-                </div>
-            </div>
-            
-            <!-- Color Filter -->
-            <div class="filter-group">
-                <h4>Color</h4>
-                <div class="color-options filter-colors">
-                    <div class="color-option" style="background-color: #e74c3c;" data-color="#e74c3c"></div>
-                    <div class="color-option" style="background-color: #3498db;" data-color="#3498db"></div>
-                    <div class="color-option" style="background-color: #2ecc71;" data-color="#2ecc71"></div>
-                    <div class="color-option" style="background-color: #f1c40f;" data-color="#f1c40f"></div>
-                    <div class="color-option" style="background-color: #9b59b6;" data-color="#9b59b6"></div>
-                    <div class="color-option" style="background-color: #34495e;" data-color="#34495e"></div>
-                    <div class="color-option" style="background-color: #1abc9c;" data-color="#1abc9c"></div>
-                    <div class="color-option" style="background-color: #e67e22;" data-color="#e67e22"></div>
-                </div>
-            </div>
-            
-            <!-- Filter Actions -->
-            <div class="filter-actions">
-                <button id="apply-filters" class="btn">Aplicar Filtros</button>
-                <button id="reset-filters">Restablecer</button>
-            </div>
+        <!-- Search Box -->
+        <div class="filter-group">
+          <h4>Buscar</h4>
+          <div class="search-box">
+            <input
+              type="text"
+              id="search-input"
+              placeholder="Buscar productos..." />
+            <button id="search-btn"><i class="fas fa-search"></i></button>
+          </div>
         </div>
 
-        <!-- Product Listing -->
-        <div class="collection-content">
-            <div class="collection-header">
-                <div class="results-count">
-                    Mostrando <span id="product-count">120</span> productos
-                </div>
-                <div class="collection-controls">
-                    <div class="view-options">
-                        <button class="view-btn active" data-view="grid">
-                            <i class="fas fa-th"></i>
-                        </button>
-                        <button class="view-btn" data-view="list">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
-                    <div class="sort-options">
-                        <select id="sort-select">
-                            <option value="featured">Destacados</option>
-                            <option value="price-low">Precio: Menor a Mayor</option>
-                            <option value="price-high">Precio: Mayor a Menor</option>
-                            <option value="name-asc">Nombre: A-Z</option>
-                            <option value="name-desc">Nombre: Z-A</option>
-                            <option value="newest">Más Recientes</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Products Grid -->
-            <div class="products-grid collection-grid" id="collection-products">
-                <!-- Products will be loaded dynamically -->
-            </div>
-            
-            <!-- Pagination -->
-            <div class="pagination">
-                <button class="pagination-btn" id="prev-page" disabled>
-                    <i class="fas fa-chevron-left"></i> Anterior
-                </button>
-                <div class="page-numbers" id="page-numbers">
-                    <span class="page-number active">1</span>
-                    <span class="page-number">2</span>
-                    <span class="page-number">3</span>
-                    <span class="page-ellipsis">...</span>
-                    <span class="page-number">10</span>
-                </div>
-                <button class="pagination-btn" id="next-page">
-                    Siguiente <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
+        <!-- Category Filter -->
+        <div class="filter-group">
+          <h4>Categoría</h4>
+          <div class="checkbox-list">
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="category"
+                value="all"
+                checked />
+              <span class="checkbox-text">Todos</span>
+              <span class="count">(30)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="category"
+                value="boots" />
+              <span class="checkbox-text">Botas</span>
+              <span class="count">(8)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="category"
+                value="hats" />
+              <span class="checkbox-text">Sombreros</span>
+              <span class="count">(7)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="category"
+                value="jackets" />
+              <span class="checkbox-text">Chamarras</span>
+              <span class="count">(8)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="category"
+                value="accessories" />
+              <span class="checkbox-text">Accesorios</span>
+              <span class="count">(7)</span>
+            </label>
+          </div>
         </div>
+
+        <!-- Brand Filter -->
+        <div class="filter-group">
+          <h4>Marca</h4>
+          <div class="checkbox-list">
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="brand"
+                value="all"
+                checked />
+              <span class="checkbox-text">Todas</span>
+              <span class="count">(30)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="brand"
+                value="marca-a" />
+              <span class="checkbox-text">Marca A</span>
+              <span class="count">(8)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="brand"
+                value="marca-b" />
+              <span class="checkbox-text">Marca B</span>
+              <span class="count">(7)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="brand"
+                value="marca-c" />
+              <span class="checkbox-text">Marca C</span>
+              <span class="count">(8)</span>
+            </label>
+            <label class="filter-checkbox">
+              <input
+                type="checkbox"
+                name="brand"
+                value="marca-d" />
+              <span class="checkbox-text">Marca D</span>
+              <span class="count">(7)</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Price Range Filter -->
+        <div class="filter-group">
+          <h4>Precio</h4>
+          <div class="price-range">
+            <div class="range-inputs">
+              <input
+                type="range"
+                id="price-min"
+                min="0"
+                max="500"
+                value="0"
+                step="10" />
+              <input
+                type="range"
+                id="price-max"
+                min="0"
+                max="500"
+                value="500"
+                step="10" />
+            </div>
+            <div class="range-values">
+              <span id="price-min-value">$0</span>
+              <span id="price-max-value">$500</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Size Filter -->
+        <div class="filter-group">
+          <h4>Talla</h4>
+          <div class="size-options filter-sizes">
+            <div
+              class="size-option"
+              data-size="xs">
+              XS
+            </div>
+            <div
+              class="size-option"
+              data-size="s">
+              S
+            </div>
+            <div
+              class="size-option"
+              data-size="m">
+              M
+            </div>
+            <div
+              class="size-option"
+              data-size="l">
+              L
+            </div>
+            <div
+              class="size-option"
+              data-size="xl">
+              XL
+            </div>
+            <div
+              class="size-option"
+              data-size="xxl">
+              XXL
+            </div>
+          </div>
+        </div>
+
+        <!-- Color Filter -->
+        <div class="filter-group">
+          <h4>Color</h4>
+          <div class="color-options filter-colors">
+            <div
+              class="color-option"
+              style="background-color: #e74c3c"
+              data-color="#e74c3c"></div>
+            <div
+              class="color-option"
+              style="background-color: #3498db"
+              data-color="#3498db"></div>
+            <div
+              class="color-option"
+              style="background-color: #2ecc71"
+              data-color="#2ecc71"></div>
+            <div
+              class="color-option"
+              style="background-color: #f1c40f"
+              data-color="#f1c40f"></div>
+            <div
+              class="color-option"
+              style="background-color: #9b59b6"
+              data-color="#9b59b6"></div>
+            <div
+              class="color-option"
+              style="background-color: #34495e"
+              data-color="#34495e"></div>
+            <div
+              class="color-option"
+              style="background-color: #1abc9c"
+              data-color="#1abc9c"></div>
+            <div
+              class="color-option"
+              style="background-color: #e67e22"
+              data-color="#e67e22"></div>
+          </div>
+        </div>
+
+        <!-- Filter Actions -->
+        <div class="filter-actions">
+          <button
+            id="apply-filters"
+            class="aaply-btn filter-action">
+            Aplicar Filtros
+          </button>
+          <button id="reset-filters" class="filter-action">Restablecer</button>
+        </div>
+      </div>
+
+      <!-- Product Listing -->
+      <div class="collection-content">
+        <div class="collection-header">
+          <div class="results-count">
+            Mostrando <span id="product-count">0</span> productos
+          </div>
+          <div class="collection-controls">
+            <div class="view-options">
+              <button
+                class="view-btn active"
+                data-view="grid">
+                <i class="fas fa-th"></i>
+              </button>
+              <button
+                class="view-btn"
+                data-view="list">
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+            <div class="sort-options">
+              <select id="sort-select">
+                <option value="featured">Destacados</option>
+                <option value="price-low">Precio: Menor a Mayor</option>
+                <option value="price-high">Precio: Mayor a Menor</option>
+                <option value="name-asc">Nombre: A-Z</option>
+                <option value="name-desc">Nombre: Z-A</option>
+                <option value="newest">Más Recientes</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div
+          class="products-grid collection-grid"
+          id="collection-products">
+          <!-- Products will be loaded dynamically -->
+          <div class="loading-indicator">
+            <i class="fas fa-spinner fa-spin"></i>
+            <p>Cargando productos...</p>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+          <button
+            class="pagination-btn"
+            id="prev-page"
+            disabled>
+            <i class="fas fa-chevron-left"></i> Anterior
+          </button>
+          <div
+            class="page-numbers"
+            id="page-numbers">
+            <span class="page-number active">1</span>
+          </div>
+          <button
+            class="pagination-btn"
+            id="next-page">
+            Siguiente <i class="fas fa-chevron-right"></i>
+          </button>
+        </div>
+      </div>
     </section>
 
     <!-- Footer -->
     <footer>
       <div class="footer-content">
-          <div class="footer-column">
-              <h3>Categorías</h3>
-              <ul class="footer-links">
-                  <li><a href="#">Categoría 1</a></li>
-                  <li><a href="#">Categoría 2</a></li>
-                  <li><a href="#">Categoría 3</a></li>
-                  <li><a href="#">Categoría 4</a></li>
-                  <li><a href="#">Todas las Categorías</a></li>
-              </ul>
+        <div class="footer-column">
+          <h3>Categorías</h3>
+          <ul class="footer-links">
+            <li>
+              <a href="collection.html?type=category&value=boots">Botas</a>
+            </li>
+            <li>
+              <a href="collection.html?type=category&value=hats">Sombreros</a>
+            </li>
+            <li>
+              <a href="collection.html?type=category&value=jackets"
+                >Chamarras</a
+              >
+            </li>
+            <li>
+              <a href="collection.html?type=category&value=accessories"
+                >Accesorios</a
+              >
+            </li>
+            <li><a href="collection.html">Todas las Categorías</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3>Información</h3>
+          <ul class="footer-links">
+            <li><a href="#">Sobre Nosotros</a></li>
+            <li><a href="#contact-us">Contacto</a></li>
+            <li><a href="#">Términos y Condiciones</a></li>
+            <li><a href="#">Política de Privacidad</a></li>
+            <li><a href="#">Preguntas Frecuentes</a></li>
+          </ul>
+        </div>
+        <div
+          class="footer-column"
+          id="contact-us">
+          <h3>Contacto</h3>
+          <div class="contact-info">
+            <p>
+              <i class="fas fa-map-marker-alt"></i> Calle Principal #123, Ciudad
+            </p>
+            <p><i class="fas fa-phone"></i> +1 234 567 890</p>
+            <p><i class="fas fa-envelope"></i> info@dosamigos.com</p>
+            <div class="social-media">
+              <a
+                href="#"
+                class="social-icon"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a
+                href="#"
+                class="social-icon"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="#"
+                class="social-icon"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a
+                href="#"
+                class="social-icon"
+                ><i class="fab fa-youtube"></i
+              ></a>
+            </div>
           </div>
-          <div class="footer-column">
-              <h3>Información</h3>
-              <ul class="footer-links">
-                  <li><a href="#">Sobre Nosotros</a></li>
-                  <li><a href="#">Contacto</a></li>
-                  <li><a href="#">Términos y Condiciones</a></li>
-                  <li><a href="#">Política de Privacidad</a></li>
-                  <li><a href="#">Preguntas Frecuentes</a></li>
-              </ul>
-          </div>
-          <!-- <div class="footer-column">
-              <h3>Mi Cuenta</h3>
-              <ul class="footer-links">
-                  <li><a href="#">Iniciar Sesión</a></li>
-                  <li><a href="#">Registrarse</a></li>
-                  <li><a href="#">Mis Favoritos</a></li>
-                  <li><a href="#">Productos Comparados</a></li>
-              </ul>
-          </div> -->
-          <div class="footer-column" id="contact-us">
-              <h3>Contacto</h3>
-              <div class="contact-info">
-                  <p><i class="fas fa-map-marker-alt"></i> Calle Principal #123, Ciudad</p>
-                  <p><i class="fas fa-phone"></i> +1 234 567 890</p>
-                  <p><i class="fas fa-envelope"></i> info@dosamigos.com</p>
-                  <div class="social-media">
-                      <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                      <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
-                      <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
-                      <a href="#" class="social-icon"><i class="fab fa-youtube"></i></a>
-                  </div>
-              </div>
-          </div>
+        </div>
       </div>
       <div class="footer-bottom">
-          <p>&copy; 2025 Dos Amigos. Todos los derechos reservados.</p>
+        <p>&copy; 2025 Dos Amigos. Todos los derechos reservados.</p>
       </div>
-  </footer>
-    
-    <!-- Quick View Modal (same as index.html) -->
-    <div class="quick-view-modal" id="quick-view-modal">
-        <!-- Modal content from index.html -->
+    </footer>
+
+    <!-- Quick View Modal -->
+    <div
+      class="quick-view-modal"
+      id="quick-view-modal">
+      <div class="modal-content">
+        <div
+          class="modal-close"
+          id="modal-close">
+          <i class="fas fa-times"></i>
+        </div>
+        <div class="featured-showcase">
+          <div class="product-gallery">
+            <img
+              src="/api/placeholder/800/500"
+              alt="Producto Modal"
+              class="main-image"
+              id="modal-main-image" />
+            <div
+              class="gallery-thumbs"
+              id="modal-gallery-thumbs">
+              <!-- Modal thumbs will be loaded dynamically -->
+            </div>
+          </div>
+          <div class="product-details">
+            <div
+              class="product-brand"
+              id="modal-brand">
+              Marca
+            </div>
+            <h1
+              class="product-title"
+              id="modal-title">
+              Producto
+            </h1>
+            <div class="product-price">
+              <span
+                class="current-price"
+                id="modal-price"
+                >$0.00</span
+              >
+              <span
+                class="old-price"
+                id="modal-old-price"
+                >$0.00</span
+              >
+            </div>
+            <div
+              class="product-description"
+              id="modal-description">
+              <p>Descripción del producto...</p>
+            </div>
+            <div class="product-options">
+              <div class="option-title">Colores Disponibles:</div>
+              <div
+                class="color-options"
+                id="modal-colors">
+                <!-- Colors will be loaded dynamically -->
+              </div>
+              <div class="option-title">Tallas Disponibles:</div>
+              <div
+                class="size-options"
+                id="modal-sizes">
+                <!-- Sizes will be loaded dynamically -->
+              </div>
+            </div>
+            <div class="quantity-selector">
+              <button class="quantity-btn decrease-quantity">-</button>
+              <input
+                type="number"
+                class="quantity-input"
+                value="1"
+                min="1"
+                max="10" />
+              <button class="quantity-btn increase-quantity">+</button>
+            </div>
+            <div class="product-actions">
+              <button class="add-to-cart">
+                <i class="fas fa-shopping-cart"></i> Añadir al Carrito
+              </button>
+              <button class="add-to-wishlist">
+                <i class="fas fa-heart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Load product data first -->
-    <script src="products.js"></script>
-    <!-- Then load main script -->
-    <script src="script.js"></script>
-    <!-- Load collection specific scripts -->
-    <script src="collection.js"></script>
-</body>
+    <!-- Debug Panel -->
+    <div
+      id="debug-panel"
+      class="debug-panel">
+      <div id="debug-content"></div>
+    </div>
+    <button
+      id="debug-toggle"
+      class="debug-toggle"
+      title="Toggle Debug Panel">
+      <i class="fas fa-bug"></i>
+    </button>
+
+    <script>
+      // Debug logging utility (globally available)
+      const debug = {
+        log: function (message, ...args) {
+          console.log(`🔍 ${message}`, ...args);
+          const debugContent = document.getElementById("debug-content");
+          if (debugContent) {
+            const logLine = document.createElement("div");
+            logLine.textContent = `${message} ${args
+              .map((arg) =>
+                typeof arg === "object" ? JSON.stringify(arg) : arg
+              )
+              .join(" ")}`;
+            debugContent.appendChild(logLine);
+            debugContent.scrollTop = debugContent.scrollHeight;
+          }
+        },
+        error: function (message, ...args) {
+          console.error(`❌ ${message}`, ...args);
+          const debugContent = document.getElementById("debug-content");
+          if (debugContent) {
+            const logLine = document.createElement("div");
+            logLine.style.color = "#ff5252";
+            logLine.textContent = `ERROR: ${message} ${args
+              .map((arg) =>
+                typeof arg === "object" ? JSON.stringify(arg) : arg
+              )
+              .join(" ")}`;
+            debugContent.appendChild(logLine);
+            debugContent.scrollTop = debugContent.scrollHeight;
+          }
+        },
+      };
+
+      // All function declarations first
+      // Format collection name (convert slug to readable name)
+      function formatCollectionName(slug) {
+        if (!slug) return "";
+
+        // Replace hyphens with spaces and capitalize each word
+        return slug
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ");
+      }
+
+      // Update page title and description based on collection type
+      function updateCollectionTitle(type, value, audienceFilter) {
+        const heading = document.getElementById("collection-heading");
+        const description = document.getElementById("collection-description");
+
+        if (!heading || !description) {
+          debug.error("Collection heading or description element not found");
+          return;
+        }
+
+        // Format the collection name
+        const formattedValue = formatCollectionName(value);
+
+        // Format audience filter if present
+        const formattedAudience = audienceFilter
+          ? formatCollectionName(audienceFilter)
+          : "";
+
+        // Set title and description based on collection type
+        switch (type) {
+          case "category":
+            if (audienceFilter) {
+              heading.textContent = `${formattedValue} para ${formattedAudience}`;
+              description.textContent = `Explora nuestra colección de ${formattedValue.toLowerCase()} para ${formattedAudience.toLowerCase()}.`;
+            } else {
+              heading.textContent = formattedValue;
+              description.textContent = `Explora nuestra colección de ${formattedValue.toLowerCase()}.`;
+            }
+            break;
+          case "brand":
+            if (audienceFilter) {
+              heading.textContent = `${formattedValue} para ${formattedAudience}`;
+              description.textContent = `Productos de ${formattedValue} para ${formattedAudience.toLowerCase()}.`;
+            } else {
+              heading.textContent = formattedValue;
+              description.textContent = `Descubre todos los productos de la marca ${formattedValue}.`;
+            }
+            break;
+          case "search":
+            heading.textContent = `Resultados de búsqueda: "${value}"`;
+            description.textContent = `Productos encontrados para tu búsqueda.`;
+            break;
+          default:
+            if (audienceFilter) {
+              heading.textContent = `Productos para ${formattedAudience}`;
+              description.textContent = `Explora nuestra colección de productos para ${formattedAudience.toLowerCase()}.`;
+            } else {
+              heading.textContent = "Todos los Productos";
+              description.textContent =
+                "Explora nuestra colección completa de productos.";
+            }
+        }
+
+        // Also update the page title
+        document.title = `Dos Amigos - ${heading.textContent}`;
+
+        // Update breadcrumb
+        const breadcrumb = document.getElementById("breadcrumb-collection");
+        if (breadcrumb) {
+          breadcrumb.textContent = heading.textContent;
+        }
+      }
+
+      // Main Navigation functionality
+      function setupNavigation() {
+        debug.log("Setting up navigation");
+
+        const dropdownButtons = document.querySelectorAll(".dropdown-button");
+        const megaMenus = document.querySelectorAll(".mega-menu-container");
+        const mobileMenuToggle = document.getElementById("mobile-menu-toggle");
+        const mainNav = document.getElementById("main-nav");
+
+        // Function to close all menus
+        function closeAllMenus() {
+          megaMenus.forEach((menu) => {
+            menu.classList.remove("active");
+          });
+          dropdownButtons.forEach((button) => {
+            button.classList.remove("active");
+          });
+        }
+
+        // Setup click handler for each dropdown button
+        dropdownButtons.forEach((button) => {
+          button.addEventListener("click", function (e) {
+            e.stopPropagation();
+            const buttonId = this.id;
+            const menuId = buttonId.replace("button", "mega-menu");
+            const targetMenu = document.getElementById(menuId);
+
+            // If the clicked menu is already active, close it
+            if (targetMenu && targetMenu.classList.contains("active")) {
+              targetMenu.classList.remove("active");
+              this.classList.remove("active");
+            } else if (targetMenu) {
+              // Close any open menus first
+              closeAllMenus();
+
+              // Open the target menu
+              targetMenu.classList.add("active");
+              this.classList.add("active");
+            }
+          });
+        });
+
+        // Close menus when clicking outside
+        document.addEventListener("click", function () {
+          closeAllMenus();
+        });
+
+        // Prevent menu close when clicking inside the mega menu
+        megaMenus.forEach((menu) => {
+          menu.addEventListener("click", function (e) {
+            e.stopPropagation();
+          });
+        });
+
+        // Mobile menu toggle
+        if (mobileMenuToggle && mainNav) {
+          mobileMenuToggle.addEventListener("click", function () {
+            mainNav.classList.toggle("active");
+          });
+        }
+
+        // Language toggle
+        const languageToggle = document.getElementById("language-toggle");
+        if (languageToggle) {
+          let isSpanish = true;
+
+          languageToggle.addEventListener("click", function () {
+            if (isSpanish) {
+              alert("Switching to English version...");
+              languageToggle.textContent = "ES";
+            } else {
+              alert("Cambiando a versión en Español...");
+              languageToggle.textContent = "EN";
+            }
+            isSpanish = !isSpanish;
+          });
+        }
+      }
+
+      // Setup quick view modal
+      function setupQuickViewModal() {
+        debug.log("Setting up quick view modal");
+
+        const quickViewModal = document.getElementById("quick-view-modal");
+        const modalClose = document.getElementById("modal-close");
+
+        if (!quickViewModal || !modalClose) {
+          debug.error("Quick view modal elements not found");
+          return;
+        }
+
+        // Function to populate modal with product data
+        function populateModal(productId) {
+          const product = productData[productId];
+          if (!product) {
+            debug.error("Product not found:", productId);
+            return;
+          }
+
+          debug.log("Populating modal with product:", product.title);
+
+          // Set product details
+          document.getElementById("modal-brand").textContent = product.brand;
+          document.getElementById("modal-title").textContent = product.title;
+          document.getElementById("modal-price").textContent = product.price;
+          document.getElementById(
+            "modal-description"
+          ).innerHTML = `<p>${product.description}</p>`;
+
+          // Set old price or hide it
+          const oldPriceElement = document.getElementById("modal-old-price");
+          if (product.oldPrice) {
+            oldPriceElement.textContent = product.oldPrice;
+            oldPriceElement.style.display = "inline";
+          } else {
+            oldPriceElement.style.display = "none";
+          }
+
+          // Create color options
+          const colorContainer = document.getElementById("modal-colors");
+          colorContainer.innerHTML = "";
+
+          if (product.colors && product.colors.length) {
+            product.colors.forEach((color, index) => {
+              const colorOption = document.createElement("div");
+              colorOption.className =
+                index === 0 ? "color-option active" : "color-option";
+              colorOption.style.backgroundColor = color;
+              colorOption.addEventListener("click", function () {
+                colorContainer
+                  .querySelectorAll(".color-option")
+                  .forEach((opt) => {
+                    opt.classList.remove("active");
+                  });
+                this.classList.add("active");
+              });
+              colorContainer.appendChild(colorOption);
+            });
+          }
+
+          // Create size options
+          const sizeContainer = document.getElementById("modal-sizes");
+          sizeContainer.innerHTML = "";
+
+          if (product.sizes && product.sizes.length) {
+            product.sizes.forEach((size, index) => {
+              const sizeOption = document.createElement("div");
+              sizeOption.className =
+                index === 0 ? "size-option active" : "size-option";
+              sizeOption.textContent = size;
+              sizeOption.addEventListener("click", function () {
+                sizeContainer
+                  .querySelectorAll(".size-option")
+                  .forEach((opt) => {
+                    opt.classList.remove("active");
+                  });
+                this.classList.add("active");
+              });
+              sizeContainer.appendChild(sizeOption);
+            });
+          }
+
+          // Create image gallery
+          const mainImage = document.getElementById("modal-main-image");
+          if (product.images && product.images.length) {
+            mainImage.src = product.images[0];
+
+            // Add error handler to the main image
+            mainImage.onerror = function () {
+              if (!this.hasAttribute("data-error-handled")) {
+                this.setAttribute("data-error-handled", "true");
+                this.src =
+                  'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500"%3E%3Crect width="800" height="500" fill="%23f8d7da"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="24" fill="%23721c24"%3EImagen No Disponible%3C/text%3E%3C/svg%3E';
+              }
+            };
+
+            const galleryThumbs = document.getElementById(
+              "modal-gallery-thumbs"
+            );
+            galleryThumbs.innerHTML = "";
+
+            product.images.forEach((image, index) => {
+              const thumb = document.createElement("div");
+              thumb.className = index === 0 ? "thumb active" : "thumb";
+              thumb.setAttribute("data-image", image);
+
+              const thumbImg = document.createElement("img");
+              thumbImg.src = image;
+              thumbImg.alt = `${product.title} Vista ${index + 1}`;
+
+              thumb.appendChild(thumbImg);
+
+              thumb.addEventListener("click", function () {
+                galleryThumbs.querySelectorAll(".thumb").forEach((t) => {
+                  t.classList.remove("active");
+                });
+                this.classList.add("active");
+                mainImage.src = this.getAttribute("data-image");
+              });
+
+              galleryThumbs.appendChild(thumb);
+            });
+          }
+        }
+
+        // Open modal with product data when quick view button is clicked
+        document.addEventListener("click", function (e) {
+          const quickViewBtn = e.target.closest(".quick-view-btn");
+          if (quickViewBtn) {
+            const productId = quickViewBtn.getAttribute("data-product-id");
+            populateModal(productId);
+            quickViewModal.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent scrolling
+          }
+        });
+
+        // Close modal
+        modalClose.addEventListener("click", function () {
+          quickViewModal.classList.remove("active");
+          document.body.style.overflow = ""; // Re-enable scrolling
+        });
+
+        // Close modal when clicking outside of content
+        quickViewModal.addEventListener("click", function (e) {
+          if (e.target === quickViewModal) {
+            quickViewModal.classList.remove("active");
+            document.body.style.overflow = "";
+          }
+        });
+
+        // Modal quantity buttons
+        const modalDecreaseBtns =
+          document.querySelectorAll(".decrease-quantity");
+        const modalIncreaseBtns =
+          document.querySelectorAll(".increase-quantity");
+
+        modalDecreaseBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const input = this.nextElementSibling;
+            let value = parseInt(input.value);
+            if (value > 1) {
+              input.value = value - 1;
+            }
+          });
+        });
+
+        modalIncreaseBtns.forEach((btn) => {
+          btn.addEventListener("click", function () {
+            const input = this.previousElementSibling;
+            let value = parseInt(input.value);
+            if (value < 10) {
+              input.value = value + 1;
+            }
+          });
+        });
+      }
+
+      // Apply sorting to products
+      function applySorting(products) {
+        const sortSelect = document.getElementById("sort-select");
+        if (!sortSelect) return products;
+
+        const sortValue = sortSelect.value;
+        let result = [...products];
+
+        switch (sortValue) {
+          case "price-low":
+            result.sort((a, b) => {
+              const priceA = parseFloat(
+                a.price.replace("$", "").replace(",", "")
+              );
+              const priceB = parseFloat(
+                b.price.replace("$", "").replace(",", "")
+              );
+              return priceA - priceB;
+            });
+            break;
+          case "price-high":
+            result.sort((a, b) => {
+              const priceA = parseFloat(
+                a.price.replace("$", "").replace(",", "")
+              );
+              const priceB = parseFloat(
+                b.price.replace("$", "").replace(",", "")
+              );
+              return priceB - priceA;
+            });
+            break;
+          case "name-asc":
+            result.sort((a, b) => a.title.localeCompare(b.title));
+            break;
+          case "name-desc":
+            result.sort((a, b) => b.title.localeCompare(a.title));
+            break;
+          case "newest":
+            // For demonstration, we'll assume product ID correlates with recency
+            result.sort((a, b) => b.id - a.id);
+            break;
+          default: // featured
+            // For demonstration, we'll prioritize featured products
+            result.sort((a, b) => {
+              if (a.featured && !b.featured) return -1;
+              if (!a.featured && b.featured) return 1;
+              return 0;
+            });
+        }
+        return result;
+      }
+
+      // Create a product card element
+      function createProductCard(product) {
+        debug.log("Creating card for product:", product.title);
+
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.setAttribute("data-product-id", product.id);
+
+        // Add badge if exists
+        if (product.badge) {
+          const badge = document.createElement("div");
+          badge.className = "product-badge";
+          badge.textContent = product.badge.text;
+          if (product.badge.color) {
+            badge.style.backgroundColor = product.badge.color;
+          }
+          card.appendChild(badge);
+        }
+
+        // Create image container
+        const imageContainer = document.createElement("div");
+        imageContainer.className = "product-image";
+
+        const image = document.createElement("img");
+        // Use the first image or a data URI for a simple gray box if no images are available
+        if (product.images && product.images.length > 0) {
+          image.src = product.images[0];
+        } else {
+          // Use a data URI for a simple gray box - this will always work without network requests
+          image.src =
+            'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200"%3E%3Crect width="300" height="200" fill="%23cccccc"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23666666"%3ESin Imagen%3C/text%3E%3C/svg%3E';
+        }
+        image.alt = product.title;
+
+        // Add error handler that won't cause infinite loops
+        image.onerror = function () {
+          // Only replace the source once to prevent loops
+          if (!this.hasAttribute("data-error-handled")) {
+            this.setAttribute("data-error-handled", "true");
+            // Use a data URI instead of a network request
+            this.src =
+              'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200"%3E%3Crect width="300" height="200" fill="%23f8d7da"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23721c24"%3EImagen No Disponible%3C/text%3E%3C/svg%3E';
+          }
+        };
+
+        imageContainer.appendChild(image);
+
+        // Create overlay with actions
+        const overlay = document.createElement("div");
+        overlay.className = "product-overlay";
+
+        const actions = document.createElement("div");
+        actions.className = "product-actions-small";
+
+        // Quick view button
+        const quickViewBtn = document.createElement("div");
+        quickViewBtn.className = "product-action-btn quick-view-btn";
+        quickViewBtn.setAttribute("data-product-id", product.id);
+        quickViewBtn.innerHTML = '<i class="fas fa-eye"></i>';
+        actions.appendChild(quickViewBtn);
+
+        // Wishlist button
+        const wishlistBtn = document.createElement("div");
+        wishlistBtn.className = "product-action-btn";
+        wishlistBtn.innerHTML = '<i class="fas fa-heart"></i>';
+        actions.appendChild(wishlistBtn);
+
+        // Compare button
+        const compareBtn = document.createElement("div");
+        compareBtn.className = "product-action-btn add-compare";
+        compareBtn.innerHTML = '<i class="fas fa-random"></i>';
+        actions.appendChild(compareBtn);
+
+        overlay.appendChild(actions);
+        imageContainer.appendChild(overlay);
+        card.appendChild(imageContainer);
+
+        // Create product info section
+        const info = document.createElement("div");
+        info.className = "product-info";
+
+        // Brand
+        const brand = document.createElement("div");
+        brand.className = "product-brand";
+        brand.textContent = product.brand;
+        info.appendChild(brand);
+
+        // Title
+        const title = document.createElement("h3");
+        title.className = "product-title";
+        title.textContent = product.title;
+        info.appendChild(title);
+
+        // Price
+        const price = document.createElement("div");
+        price.className = "product-price";
+
+        const currentPrice = document.createElement("span");
+        currentPrice.className = "current-price";
+        currentPrice.textContent = product.price;
+        price.appendChild(currentPrice);
+
+        if (product.oldPrice) {
+          const oldPrice = document.createElement("span");
+          oldPrice.className = "old-price";
+          oldPrice.textContent = product.oldPrice;
+          price.appendChild(oldPrice);
+        }
+
+        info.appendChild(price);
+
+        // Product options
+        const options = document.createElement("div");
+        options.className = "product-options";
+
+        // Colors
+        const colors = document.createElement("div");
+        colors.className = "product-colors";
+
+        if (product.colors && product.colors.length > 0) {
+          product.colors.forEach((color, index) => {
+            const colorOption = document.createElement("div");
+            colorOption.className =
+              index === 0 ? "color-option active" : "color-option";
+            colorOption.style.backgroundColor = color;
+
+            // Add click event to color options
+            colorOption.addEventListener("click", function () {
+              // Remove active class from all siblings
+              const siblings =
+                this.parentNode.querySelectorAll(".color-option");
+              siblings.forEach((sib) => sib.classList.remove("active"));
+
+              // Add active class to clicked option
+              this.classList.add("active");
+            });
+
+            colors.appendChild(colorOption);
+          });
+        }
+
+        options.appendChild(colors);
+
+        // Sizes
+        const sizes = document.createElement("div");
+        sizes.className = "product-sizes";
+
+        if (product.sizes && product.sizes.length > 0) {
+          product.sizes.forEach((size, index) => {
+            const sizeOption = document.createElement("div");
+            sizeOption.className =
+              index === 0 ? "size-option active" : "size-option";
+            sizeOption.textContent = size;
+
+            // Add click event to size options
+            sizeOption.addEventListener("click", function () {
+              // Remove active class from all siblings
+              const siblings = this.parentNode.querySelectorAll(".size-option");
+              siblings.forEach((sib) => sib.classList.remove("active"));
+
+              // Add active class to clicked option
+              this.classList.add("active");
+            });
+
+            sizes.appendChild(sizeOption);
+          });
+        }
+
+        options.appendChild(sizes);
+        info.appendChild(options);
+        card.appendChild(info);
+
+        return card;
+      }
+
+      // Update pagination controls
+      function updatePagination(
+        currentPage,
+        totalPages,
+        type,
+        value,
+        audienceFilter
+      ) {
+        const pageNumbers = document.getElementById("page-numbers");
+        const prevBtn = document.getElementById("prev-page");
+        const nextBtn = document.getElementById("next-page");
+
+        if (!pageNumbers || !prevBtn || !nextBtn) {
+          debug.error("Pagination elements not found");
+          return;
+        }
+
+        // Clear existing page numbers
+        pageNumbers.innerHTML = "";
+
+        // Determine which page numbers to show
+        let pagesToShow = [];
+
+        if (totalPages <= 5) {
+          // Show all pages if 5 or fewer
+          pagesToShow = Array.from({ length: totalPages }, (_, i) => i + 1);
+        } else {
+          // Always show first page
+          pagesToShow.push(1);
+
+          // Show current page and neighbors
+          if (currentPage > 2) {
+            if (currentPage > 3) {
+              pagesToShow.push("...");
+            }
+            pagesToShow.push(currentPage - 1);
+          }
+
+          if (currentPage !== 1 && currentPage !== totalPages) {
+            pagesToShow.push(currentPage);
+          }
+
+          if (currentPage < totalPages - 1) {
+            pagesToShow.push(currentPage + 1);
+            if (currentPage < totalPages - 2) {
+              pagesToShow.push("...");
+            }
+          }
+
+          // Always show last page
+          pagesToShow.push(totalPages);
+        }
+
+        // Create page number elements
+        pagesToShow.forEach((page) => {
+          if (page === "...") {
+            const ellipsis = document.createElement("span");
+            ellipsis.className = "page-ellipsis";
+            ellipsis.textContent = "...";
+            pageNumbers.appendChild(ellipsis);
+          } else {
+            const pageNumber = document.createElement("span");
+            pageNumber.className =
+              page === currentPage ? "page-number active" : "page-number";
+            pageNumber.textContent = page;
+            pageNumber.addEventListener("click", () => {
+              if (page !== currentPage) {
+                loadFilteredProducts(type, value, audienceFilter, page);
+              }
+            });
+            pageNumbers.appendChild(pageNumber);
+          }
+        });
+
+        // Update prev/next buttons
+        prevBtn.disabled = currentPage === 1;
+        nextBtn.disabled = currentPage === totalPages;
+
+        // Add event listeners to prev/next buttons
+        prevBtn.onclick = () => {
+          if (currentPage > 1) {
+            loadFilteredProducts(type, value, audienceFilter, currentPage - 1);
+          }
+        };
+
+        nextBtn.onclick = () => {
+          if (currentPage < totalPages) {
+            loadFilteredProducts(type, value, audienceFilter, currentPage + 1);
+          }
+        };
+      }
+
+      // Load products based on filters - Must define this after all helper functions
+      function loadFilteredProducts(type, value, audienceFilter, page = 1) {
+        debug.log("Loading filtered products", {
+          type,
+          value,
+          audienceFilter,
+          page,
+        });
+
+        // Get the product container
+        const productContainer = document.getElementById("collection-products");
+        if (!productContainer) {
+          debug.error("Product container not found");
+          return;
+        }
+
+        // Clear existing products
+        productContainer.innerHTML =
+          '<div class="loading-indicator"><i class="fas fa-spinner fa-spin"></i><p>Cargando productos...</p></div>';
+
+        // Get all products
+        let filteredProducts = Object.values(productData);
+        debug.log("Total products before filtering:", filteredProducts.length);
+
+        // Apply initial filter based on collection type
+        if (type && type !== "all") {
+          switch (type) {
+            case "category":
+              filteredProducts = filteredProducts.filter(
+                (product) => product.category === value
+              );
+              debug.log(
+                `Filtered by category "${value}":`,
+                filteredProducts.length
+              );
+              break;
+            case "brand":
+              filteredProducts = filteredProducts.filter(
+                (product) =>
+                  product.brand.toLowerCase() ===
+                  formatCollectionName(value).toLowerCase()
+              );
+              debug.log(
+                `Filtered by brand "${value}":`,
+                filteredProducts.length
+              );
+              break;
+            case "search":
+              const searchTerm = value.toLowerCase();
+              filteredProducts = filteredProducts.filter(
+                (product) =>
+                  product.title.toLowerCase().includes(searchTerm) ||
+                  product.brand.toLowerCase().includes(searchTerm) ||
+                  product.description.toLowerCase().includes(searchTerm)
+              );
+              debug.log(
+                `Filtered by search "${value}":`,
+                filteredProducts.length
+              );
+              break;
+          }
+        }
+
+        // Apply audience filter if specified in URL
+        if (audienceFilter) {
+          filteredProducts = filteredProducts.filter(
+            (product) => product.tags && product.tags.includes(audienceFilter)
+          );
+          debug.log(
+            `Filtered by audience "${audienceFilter}":`,
+            filteredProducts.length
+          );
+        }
+
+        // Apply current sort option
+        filteredProducts = applySorting(filteredProducts);
+
+        // Update product count
+        const productCount = document.getElementById("product-count");
+        if (productCount) {
+          productCount.textContent = filteredProducts.length;
+        }
+
+        // If no products found, show empty state
+        if (filteredProducts.length === 0) {
+          productContainer.innerHTML = `
+                <div class="empty-state">
+                    <i class="fas fa-search"></i>
+                    <h3>No se encontraron productos</h3>
+                    <p>Intenta con otros criterios de búsqueda o restablece los filtros.</p>
+                    <button id="clear-all-filters" class="btn">Restablecer Filtros</button>
+                </div>
+            `;
+
+          // Add event listener to the clear filters button
+          const clearAllFiltersBtn =
+            document.getElementById("clear-all-filters");
+          if (clearAllFiltersBtn) {
+            clearAllFiltersBtn.addEventListener("click", () => {
+              window.location.href = "collection.html";
+            });
+          }
+
+          return;
+        }
+
+        // Calculate pagination
+        const productsPerPage = 12;
+        const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
+        // Ensure current page is valid
+        page = Math.max(1, Math.min(page, totalPages));
+
+        // Slice products for current page
+        const startIndex = (page - 1) * productsPerPage;
+        const endIndex = startIndex + productsPerPage;
+        const currentPageProducts = filteredProducts.slice(
+          startIndex,
+          endIndex
+        );
+
+        debug.log(
+          "Products displaying on current page:",
+          currentPageProducts.length
+        );
+
+        // Clear loading indicator
+        productContainer.innerHTML = "";
+
+        // Render products
+        currentPageProducts.forEach((product, index) => {
+          const productCard = createProductCard(product);
+          productContainer.appendChild(productCard);
+
+          // Add fade-in animation with staggered delay
+          setTimeout(() => {
+            productCard.classList.add("active");
+          }, 50 * index);
+        });
+
+        // Update pagination
+        updatePagination(page, totalPages, type, value, audienceFilter);
+      }
+
+      // Setup filter event listeners
+      function setupFilterEvents() {
+        debug.log("Setting up filter events");
+
+        // Mobile filter toggle
+        const mobileFilterBtn = document.getElementById("mobile-filter-btn");
+        const closeFilterBtn = document.getElementById("close-filter");
+        const filterSidebar = document.getElementById("filter-sidebar");
+
+        if (mobileFilterBtn && closeFilterBtn && filterSidebar) {
+          mobileFilterBtn.addEventListener("click", () => {
+            filterSidebar.classList.add("active");
+            document.body.style.overflow = "hidden"; // Prevent scrolling
+          });
+
+          closeFilterBtn.addEventListener("click", () => {
+            filterSidebar.classList.remove("active");
+            document.body.style.overflow = ""; // Re-enable scrolling
+          });
+        }
+
+        // Price range inputs
+        const priceMin = document.getElementById("price-min");
+        const priceMax = document.getElementById("price-max");
+        const priceMinValue = document.getElementById("price-min-value");
+        const priceMaxValue = document.getElementById("price-max-value");
+
+        if (priceMin && priceMax && priceMinValue && priceMaxValue) {
+          // Set initial values display
+          priceMinValue.textContent = `$${priceMin.value}`;
+          priceMaxValue.textContent = `$${priceMax.value}`;
+
+          // Update range values display on input
+          priceMin.addEventListener("input", () => {
+            priceMinValue.textContent = `$${priceMin.value}`;
+            // Ensure min doesn't exceed max
+            if (parseInt(priceMin.value) > parseInt(priceMax.value)) {
+              priceMax.value = priceMin.value;
+              priceMaxValue.textContent = `$${priceMax.value}`;
+            }
+          });
+
+          priceMax.addEventListener("input", () => {
+            priceMaxValue.textContent = `$${priceMax.value}`;
+            // Ensure max doesn't go below min
+            if (parseInt(priceMax.value) < parseInt(priceMin.value)) {
+              priceMin.value = priceMax.value;
+              priceMinValue.textContent = `$${priceMin.value}`;
+            }
+          });
+        }
+
+        // Size options
+        const sizeOptions = document.querySelectorAll(
+          ".filter-sizes .size-option"
+        );
+        sizeOptions.forEach((option) => {
+          option.addEventListener("click", () => {
+            option.classList.toggle("active");
+          });
+        });
+
+        // Color options
+        const colorOptions = document.querySelectorAll(
+          ".filter-colors .color-option"
+        );
+        colorOptions.forEach((option) => {
+          option.addEventListener("click", () => {
+            option.classList.toggle("active");
+          });
+        });
+
+        // Category checkboxes all toggle
+        const allCategoryCheckbox = document.querySelector(
+          'input[name="category"][value="all"]'
+        );
+        const categoryCheckboxes = document.querySelectorAll(
+          'input[name="category"]:not([value="all"])'
+        );
+
+        if (allCategoryCheckbox) {
+          allCategoryCheckbox.addEventListener("change", () => {
+            if (allCategoryCheckbox.checked) {
+              categoryCheckboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+              });
+            }
+          });
+
+          categoryCheckboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", () => {
+              if (checkbox.checked) {
+                allCategoryCheckbox.checked = false;
+              } else if (
+                Array.from(categoryCheckboxes).every((cb) => !cb.checked)
+              ) {
+                allCategoryCheckbox.checked = true;
+              }
+            });
+          });
+        }
+
+        // Brand checkboxes all toggle
+        const allBrandCheckbox = document.querySelector(
+          'input[name="brand"][value="all"]'
+        );
+        const brandCheckboxes = document.querySelectorAll(
+          'input[name="brand"]:not([value="all"])'
+        );
+
+        if (allBrandCheckbox) {
+          allBrandCheckbox.addEventListener("change", () => {
+            if (allBrandCheckbox.checked) {
+              brandCheckboxes.forEach((checkbox) => {
+                checkbox.checked = false;
+              });
+            }
+          });
+
+          brandCheckboxes.forEach((checkbox) => {
+            checkbox.addEventListener("change", () => {
+              if (checkbox.checked) {
+                allBrandCheckbox.checked = false;
+              } else if (
+                Array.from(brandCheckboxes).every((cb) => !cb.checked)
+              ) {
+                allBrandCheckbox.checked = true;
+              }
+            });
+          });
+        }
+
+        // Apply filters button
+        const applyFiltersBtn = document.getElementById("apply-filters");
+        if (applyFiltersBtn) {
+          applyFiltersBtn.addEventListener("click", () => {
+            // Close mobile filter if open
+            if (filterSidebar) {
+              filterSidebar.classList.remove("active");
+              document.body.style.overflow = "";
+            }
+
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get("type") || "all";
+            const value = urlParams.get("value") || "";
+            const audienceFilter = urlParams.get("filter") || "";
+
+            // Reload products with current filters
+            loadFilteredProducts(type, value, audienceFilter, 1);
+          });
+        }
+
+        // Reset filters button
+        const resetFiltersBtn = document.getElementById("reset-filters");
+        if (resetFiltersBtn) {
+          resetFiltersBtn.addEventListener("click", () => {
+            window.location.href = "collection.html";
+          });
+        }
+
+        // Search functionality
+        const searchBtn = document.getElementById("search-btn");
+        const searchInput = document.getElementById("search-input");
+        const mobileSearchBtn = document.getElementById("mobile-search-btn");
+        const mobileSearchInput = document.getElementById(
+          "mobile-search-input"
+        );
+
+        if (searchBtn && searchInput) {
+          searchBtn.addEventListener("click", () => {
+            if (searchInput.value.trim()) {
+              window.location.href = `collection.html?type=search&value=${encodeURIComponent(
+                searchInput.value.trim()
+              )}`;
+            }
+          });
+
+          searchInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && searchInput.value.trim()) {
+              window.location.href = `collection.html?type=search&value=${encodeURIComponent(
+                searchInput.value.trim()
+              )}`;
+            }
+          });
+        }
+
+        if (mobileSearchBtn && mobileSearchInput) {
+          mobileSearchBtn.addEventListener("click", () => {
+            if (mobileSearchInput.value.trim()) {
+              window.location.href = `collection.html?type=search&value=${encodeURIComponent(
+                mobileSearchInput.value.trim()
+              )}`;
+            }
+          });
+
+          mobileSearchInput.addEventListener("keypress", (e) => {
+            if (e.key === "Enter" && mobileSearchInput.value.trim()) {
+              window.location.href = `collection.html?type=search&value=${encodeURIComponent(
+                mobileSearchInput.value.trim()
+              )}`;
+            }
+          });
+        }
+      }
+
+      // Setup collection controls (view mode, sorting)
+      function setupCollectionControls() {
+        debug.log("Setting up collection controls");
+
+        // View mode toggle (grid/list)
+        const viewButtons = document.querySelectorAll(".view-btn");
+        const collectionGrid = document.getElementById("collection-products");
+
+        if (viewButtons.length && collectionGrid) {
+          viewButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              // Remove active class from all buttons
+              viewButtons.forEach((btn) => btn.classList.remove("active"));
+
+              // Add active class to clicked button
+              button.classList.add("active");
+
+              // Set view mode
+              const viewMode = button.getAttribute("data-view");
+              if (viewMode === "list") {
+                collectionGrid.classList.add("list-view");
+              } else {
+                collectionGrid.classList.remove("list-view");
+              }
+            });
+          });
+        }
+
+        // Sort options
+        const sortSelect = document.getElementById("sort-select");
+        if (sortSelect) {
+          sortSelect.addEventListener("change", () => {
+            // Get URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const type = urlParams.get("type") || "all";
+            const value = urlParams.get("value") || "";
+            const audienceFilter = urlParams.get("filter") || "";
+
+            // Reload products with current filters and sort option
+            loadFilteredProducts(type, value, audienceFilter, 1);
+          });
+        }
+      }
+
+      // Initialize the collection page
+      function initCollection() {
+        debug.log("Initializing collection page");
+
+        // Get URL parameters to determine which collection to show
+        const urlParams = new URLSearchParams(window.location.search);
+        const collectionType = urlParams.get("type") || "all";
+        const collectionValue = urlParams.get("value") || "";
+        const audienceFilter = urlParams.get("filter") || "";
+
+        debug.log("URL parameters:", {
+          type: collectionType,
+          value: collectionValue,
+          filter: audienceFilter,
+        });
+
+        // Set page title and description based on collection type
+        updateCollectionTitle(collectionType, collectionValue, audienceFilter);
+
+        // Load initial products based on URL parameters
+        loadFilteredProducts(
+          collectionType,
+          collectionValue,
+          audienceFilter,
+          1
+        );
+
+        // Setup event listeners
+        setupFilterEvents();
+        setupCollectionControls();
+      }
+
+      // Now declare the product data
+      const productData = {
+        1: {
+          id: 1,
+          brand: "Marca A",
+          title: "Botas de trabajo",
+          price: "$129.99",
+          oldPrice: "$159.99",
+          description:
+            "Este producto premium está fabricado con materiales de alta calidad y diseñado para ofrecer máxima comodidad y durabilidad. Perfecto para cualquir tipo de trabajo.",
+          colors: ["#e74c3c", "#3498db", "#2ecc71"],
+          sizes: ["7", "8", "9"],
+          images: [
+            "images/boots/boots_001.webp",
+            "/api/placeholder/800/500?text=Producto+1+Vista+2",
+            "/api/placeholder/800/500?text=Producto+1+Vista+3",
+            "/api/placeholder/800/500?text=Producto+1+Vista+4",
+          ],
+          badge: {
+            text: "Nuevo",
+            color: "#e74c3c",
+          },
+          category: "boots",
+          featured: false,
+          topSeller: false,
+          tags: ["calzado", "hombre", "casual"],
+        },
+        2: {
+          id: 2,
+          brand: "Marca B",
+          title: "Sombrero Especial",
+          price: "$89.99",
+          oldPrice: "$105.99",
+          description:
+            "Producto especial con características únicas que lo distinguen de otros similares en el mercado. Su diseño innovador y materiales seleccionados garantizan una experiencia excepcional.",
+          colors: ["#2c3e50", "#9b59b6"],
+          sizes: ["M", "L", "XL"],
+          images: [
+            "images/hats/hats_001.webp",
+            "/api/placeholder/800/500?text=Producto+2+Vista+2",
+            "/api/placeholder/800/500?text=Producto+2+Vista+3",
+            "/api/placeholder/800/500?text=Producto+2+Vista+4",
+          ],
+          badge: {
+            text: "-15%",
+            color: "#f39c12",
+          },
+          category: "hats",
+          featured: false,
+          topSeller: false,
+          tags: ["accesorios", "unisex", "casual"],
+        },
+        3: {
+          id: 3,
+          brand: "Marca C",
+          title: "Chamarra Elite",
+          price: "$199.99",
+          oldPrice: "",
+          description:
+            "Producto de la línea elite, diseñado para quienes buscan lo mejor en calidad y rendimiento. Sus características premium satisfacen las expectativas más exigentes del mercado actual.",
+          colors: ["#f1c40f", "#e67e22", "#95a5a6"],
+          sizes: ["S", "M", "L", "XL"],
+          images: [
+            "images/jackets/jackets_001.webp",
+            "/api/placeholder/800/500?text=Producto+3+Vista+2",
+            "/api/placeholder/800/500?text=Producto+3+Vista+3",
+            "/api/placeholder/800/500?text=Producto+3+Vista+4",
+          ],
+          badge: null,
+          category: "jackets",
+          featured: false,
+          topSeller: false,
+          tags: ["ropa", "hombre", "formal"],
+        },
+        4: {
+          id: 4,
+          brand: "Marca D",
+          title: "Botas Superior",
+          price: "$149.99",
+          oldPrice: "$179.99",
+          description:
+            "Producto superior con acabados de alta gama y materiales seleccionados. Su diseño ergonómico y estética sofisticada lo convierten en una opción ideal para quienes valoran la calidad y el estilo.",
+          colors: ["#34495e", "#16a085"],
+          sizes: ["S", "M", "L"],
+          images: [
+            "images/boots/boots_002.webp",
+            "/api/placeholder/800/500?text=Producto+4+Vista+2",
+            "/api/placeholder/800/500?text=Producto+4+Vista+3",
+            "/api/placeholder/800/500?text=Producto+4+Vista+4",
+          ],
+          badge: {
+            text: "Top",
+            color: "#27ae60",
+          },
+          category: "boots",
+          featured: false,
+          topSeller: false,
+          tags: ["calzado", "mujer", "formal"],
+        },
+        5: {
+          id: 5,
+          brand: "Marca A",
+          title: "Cinturón Exclusivo",
+          price: "$219.99",
+          oldPrice: "",
+          description:
+            "Producto estrella de nuestra marca, reconocido por su excelente relación calidad-precio y diseño innovador. Es uno de los más solicitados por nuestros clientes habituales.",
+          colors: ["#e74c3c", "#3498db", "#2ecc71"],
+          sizes: ["S", "M", "L"],
+          images: [
+            "images/belts/belts_001.webp",
+            "/api/placeholder/800/500?text=Producto+5+Vista+2",
+            "/api/placeholder/800/500?text=Producto+5+Vista+3",
+            "/api/placeholder/800/500?text=Producto+5+Vista+4",
+          ],
+          badge: {
+            text: "Best Seller",
+            color: "#8e44ad",
+          },
+          category: "accessories",
+          featured: true,
+          topSeller: true,
+          tags: ["accesorios", "unisex", "casual"],
+        },
+        6: {
+          id: 6,
+          brand: "Marca B",
+          title: "Sombrero Vintage",
+          price: "$179.99",
+          oldPrice: "$209.99",
+          description:
+            "Este producto estrella combina tecnología avanzada y diseño elegante. Su popularidad se debe a su versatilidad y durabilidad excepcional que lo convierte en una inversión inteligente.",
+          colors: ["#2c3e50", "#9b59b6"],
+          sizes: ["M", "L", "XL"],
+          images: [
+            "images/hats/hats_002.webp",
+            "/api/placeholder/800/500?text=Producto+6+Vista+2",
+            "/api/placeholder/800/500?text=Producto+6+Vista+3",
+            "/api/placeholder/800/500?text=Producto+6+Vista+4",
+          ],
+          badge: {
+            text: "Best Seller",
+            color: "#8e44ad",
+          },
+          category: "hats",
+          featured: false,
+          topSeller: true,
+          tags: ["accesorios", "hombre", "casual"],
+        },
+        7: {
+          id: 7,
+          brand: "Marca C",
+          title: "Chamarra de Cuero",
+          price: "$159.99",
+          oldPrice: "",
+          description:
+            "Uno de nuestros productos estrella más vendidos, apreciado por su equilibrio perfecto entre funcionalidad y estética. Ideal para uso diario y ocasiones especiales.",
+          colors: ["#f1c40f", "#e67e22"],
+          sizes: ["S", "M", "L"],
+          images: [
+            "images/jackets/jackets_002.webp",
+            "/api/placeholder/800/500?text=Producto+7+Vista+2",
+            "/api/placeholder/800/500?text=Producto+7+Vista+3",
+            "/api/placeholder/800/500?text=Producto+7+Vista+4",
+          ],
+          badge: {
+            text: "Best Seller",
+            color: "#8e44ad",
+          },
+          category: "jackets",
+          featured: false,
+          topSeller: true,
+          tags: ["ropa", "mujer", "casual"],
+        },
+        8: {
+          id: 8,
+          brand: "Marca D",
+          title: "Cinturón Premium",
+          price: "$189.99",
+          oldPrice: "$219.99",
+          description:
+            "Producto estrella premium con características exclusivas. Su innovador diseño y calidad superior lo han convertido en un referente en su categoría y uno de los favoritos de nuestros clientes.",
+          colors: ["#34495e", "#16a085"],
+          sizes: ["S", "M", "L"],
+          images: [
+            "images/belts/belts_002.webp",
+            "/api/placeholder/800/500?text=Producto+8+Vista+2",
+            "/api/placeholder/800/500?text=Producto+8+Vista+3",
+            "/api/placeholder/800/500?text=Producto+8+Vista+4",
+          ],
+          badge: {
+            text: "Best Seller",
+            color: "#8e44ad",
+          },
+          category: "accessories",
+          featured: true,
+          topSeller: true,
+          tags: ["accesorios", "ninos", "casual"],
+        },
+      };
+
+      // Add 22 more products (to have a total of 30)
+      for (let i = 9; i <= 30; i++) {
+        const categories = ["boots", "hats", "jackets", "accessories"];
+        const brands = ["Marca A", "Marca B", "Marca C", "Marca D"];
+        const audienceTypes = ["hombre", "mujer", "ninos", "unisex"];
+        const styleTypes = ["casual", "formal", "deportivo"];
+
+        const categoryIndex = Math.floor(Math.random() * categories.length);
+        const randomCategory = categories[categoryIndex];
+        const randomBrand = brands[Math.floor(Math.random() * brands.length)];
+        const randomAudience =
+          audienceTypes[Math.floor(Math.random() * audienceTypes.length)];
+        const randomStyle =
+          styleTypes[Math.floor(Math.random() * styleTypes.length)];
+
+        productData[i] = {
+          id: i,
+          brand: randomBrand,
+          title: `${
+            randomCategory.charAt(0).toUpperCase() + randomCategory.slice(1)
+          } ${i}`,
+          price: `$${(50 + Math.floor(Math.random() * 150)).toFixed(2)}`,
+          oldPrice:
+            Math.random() > 0.5
+              ? `$${(100 + Math.floor(Math.random() * 150)).toFixed(2)}`
+              : "",
+          description: `Descripción del producto ${i}. Este es un producto de tipo ${randomCategory} diseñado para ${randomAudience} con estilo ${randomStyle}.`,
+          colors: [
+            ["#e74c3c", "#3498db", "#2ecc71"],
+            ["#2c3e50", "#9b59b6"],
+            ["#f1c40f", "#e67e22", "#95a5a6"],
+            ["#34495e", "#16a085"],
+          ][Math.floor(Math.random() * 4)],
+          sizes: [
+            ["S", "M", "L"],
+            ["M", "L", "XL"],
+            ["S", "M", "L", "XL"],
+            ["7", "8", "9", "10"],
+          ][Math.floor(Math.random() * 4)],
+          images: [
+            `/api/placeholder/800/500?text=${randomCategory}+${i}`,
+            `/api/placeholder/800/500?text=Producto+${i}+Vista+2`,
+            `/api/placeholder/800/500?text=Producto+${i}+Vista+3`,
+          ],
+          badge:
+            Math.random() > 0.7
+              ? {
+                  text: ["Nuevo", "-20%", "Popular"][
+                    Math.floor(Math.random() * 3)
+                  ],
+                  color: ["#e74c3c", "#f39c12", "#27ae60"][
+                    Math.floor(Math.random() * 3)
+                  ],
+                }
+              : null,
+          category: randomCategory,
+          featured: Math.random() > 0.8,
+          topSeller: Math.random() > 0.8,
+          tags: [randomAudience, randomStyle],
+        };
+      }
+
+      // Add additional products
+      for (let i = 9; i <= 30; i++) {
+        // product generation code
+      }
+
+      // Only execute code after DOM is fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        // Setup debug panel
+        const debugToggle = document.getElementById("debug-toggle");
+        const debugPanel = document.getElementById("debug-panel");
+        if (debugToggle && debugPanel) {
+          debugToggle.addEventListener("click", () => {
+            debugPanel.style.display =
+              debugPanel.style.display === "none" ? "block" : "none";
+          });
+        }
+
+        // Loading screen animation
+        setTimeout(function () {
+          document.querySelector(".loading-overlay").style.opacity = "0";
+          setTimeout(function () {
+            document.querySelector(".loading-overlay").style.display = "none";
+          }, 1000);
+        }, 1000);
+
+        // Initialize the collection page
+        initCollection();
+
+        // Set up navigation functionality
+        setupNavigation();
+
+        // Set up quick view modal
+        setupQuickViewModal();
+      });
+    </script>
+    <script src="comparison.js"></script>
+    <script src="favorites.js"></script>
+    <script src="enhanced-filters.js"></script>
+  </body>
 </html>
