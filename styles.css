@@ -1260,6 +1260,10 @@ footer {
     .hero p {
         font-size: 1rem;
     }
+
+    .logo {
+      display: none;
+    }
     
     .section-title h2 {
         font-size: 1.6rem;
