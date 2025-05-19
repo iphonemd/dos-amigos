@@ -739,3 +739,134 @@ function setupScrollAnimation() {
       fadeInObserver.observe(element);
   });
 }
+
+/* JavaScript for Mobile Menu Enhancement */
+document.addEventListener("DOMContentLoaded", function() {
+    // Store original positions of mega menus
+    const originalPositions = {};
+    const headerElement = document.querySelector('header');
+    //let isMobile = window.innerWidth <= 768;
+    let isMobile = window.innerWidth <= 940;
+    let menuAlreadyModified = false;
+    
+    // Store the original menu structure when the page loads
+    function storeOriginalMenuStructure() {
+      const megaMenus = document.querySelectorAll('.mega-menu-container');
+      
+      megaMenus.forEach(menu => {
+        originalPositions[menu.id] = {
+          element: menu,
+          parentNode: menu.parentNode,
+          nextSibling: menu.nextSibling
+        };
+      });
+    }
+    
+    // Function to enhance mobile menu behavior
+    function enhanceMobileMenu() {
+      if (menuAlreadyModified) return;
+      
+      const dropdownButtons = document.querySelectorAll('.dropdown-button');
+      const megaMenus = document.querySelectorAll('.mega-menu-container');
+      
+      // First, move each mega menu directly after its corresponding button in the DOM
+      dropdownButtons.forEach(button => {
+        const buttonId = button.id;
+        const menuId = buttonId.replace('button', 'mega-menu');
+        const targetMenu = document.getElementById(menuId);
+        
+        if (targetMenu) {
+          // Get the parent nav-item of the button
+          const navItem = button.closest('.nav-item');
+          
+          if (navItem) {
+            // Move the mega menu to be directly after the button but still inside the nav-item
+            navItem.appendChild(targetMenu);
+          }
+        }
+      });
+      
+      // Reset the click handlers for the dropdown buttons
+      dropdownButtons.forEach(button => {
+        // Remove existing click listeners
+        const newButton = button.cloneNode(true);
+        button.parentNode.replaceChild(newButton, button);
+        
+        // Add new click handler
+        newButton.addEventListener('click', function(e) {
+          //if (window.innerWidth <= 768) {
+          if (window.innerWidth <= 940) {
+            e.stopPropagation();
+            
+            const buttonId = this.id;
+            const menuId = buttonId.replace('button', 'mega-menu');
+            const targetMenu = document.getElementById(menuId);
+            
+            if (targetMenu) {
+              // Toggle this specific mega menu
+              const isActive = targetMenu.classList.contains('active');
+              
+              // First close all menus
+              megaMenus.forEach(menu => {
+                menu.classList.remove('active');
+              });
+              
+              dropdownButtons.forEach(btn => {
+                btn.classList.remove('active');
+              });
+              
+              // Then open the target menu if it wasn't already open
+              if (!isActive) {
+                targetMenu.classList.add('active');
+                this.classList.add('active');
+              }
+            }
+          }
+        });
+      });
+      
+      menuAlreadyModified = true;
+    }
+    
+    // Function to restore the original menu structure
+    function restoreOriginalMenuStructure() {
+      if (!menuAlreadyModified) return;
+      
+      // Restore each mega menu to its original position
+      Object.keys(originalPositions).forEach(menuId => {
+        const { element, parentNode, nextSibling } = originalPositions[menuId];
+        parentNode.insertBefore(element, nextSibling);
+      });
+      
+      // Reset the click handlers by re-running the main navigation setup
+      if (typeof setupNavigation === 'function') {
+        setupNavigation();
+      }
+      
+      menuAlreadyModified = false;
+    }
+    
+    // Store the original menu structure when the page loads
+    storeOriginalMenuStructure();
+    
+    // Apply mobile enhancements if needed on page load
+    if (isMobile) {
+      enhanceMobileMenu();
+    }
+    
+    // Handle screen resize
+    window.addEventListener('resize', function() {
+      const wasMobile = isMobile;
+      //isMobile = window.innerWidth <= 768;
+      isMobile = window.innerWidth <= 940;
+      
+      // If switching between mobile and desktop states
+      if (wasMobile !== isMobile) {
+        if (isMobile) {
+          enhanceMobileMenu();
+        } else {
+          restoreOriginalMenuStructure();
+        }
+      }
+    });
+  });

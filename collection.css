@@ -475,7 +475,8 @@
   }
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) { */
+@media (max-width: 940px) {
   .collection-header {
       flex-direction: column;
       align-items: flex-start;

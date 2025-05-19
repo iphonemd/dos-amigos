@@ -2,7 +2,7 @@
 const productData = {
   1: {
       id: 1,
-      brand: 'Marca A',
+      brand: 'Ariat',
       title: 'Botas de trabajo',
       price: '$129.99',
       oldPrice: '$159.99',
@@ -26,7 +26,7 @@ const productData = {
   },
   2: {
       id: 2,
-      brand: 'Marca B',
+      brand: 'Levis',
       title: 'Producto Especial 2',
       price: '$89.99',
       oldPrice: '$105.99',
@@ -50,7 +50,7 @@ const productData = {
   },
   3: {
       id: 3,
-      brand: 'Marca C',
+      brand: 'Wrangler',
       title: 'Producto Elite 3',
       price: '$199.99',
       oldPrice: '',
@@ -71,7 +71,7 @@ const productData = {
   },
   4: {
       id: 4,
-      brand: 'Marca D',
+      brand: 'Rock Revival',
       title: 'Producto Superior 4',
       price: '$149.99',
       oldPrice: '$179.99',
@@ -95,7 +95,7 @@ const productData = {
   },
   5: {
       id: 5,
-      brand: 'Marca A',
+      brand: 'Ariat',
       title: 'Producto Estrella 1',
       price: '$219.99',
       oldPrice: '',
@@ -119,7 +119,7 @@ const productData = {
   },
   6: {
       id: 6,
-      brand: 'Marca B',
+      brand: 'Levis',
       title: 'Producto Estrella 2',
       price: '$179.99',
       oldPrice: '$209.99',
@@ -143,7 +143,7 @@ const productData = {
   },
   7: {
       id: 7,
-      brand: 'Marca C',
+      brand: 'Wrangler',
       title: 'Producto Estrella 3',
       price: '$159.99',
       oldPrice: '',
@@ -167,7 +167,7 @@ const productData = {
   },
   8: {
       id: 8,
-      brand: 'Marca D',
+      brand: 'Rock Revival',
       title: 'Producto Estrella 4',
       price: '$189.99',
       oldPrice: '$219.99',
@@ -194,7 +194,7 @@ const productData = {
 // Additional products to demonstrate the collection page
 /*for (let i = 9; i <= 20; i++) {
   const categories = ['boots', 'hats', 'jackets', 'accessories'];
-  const brands = ['Marca A', 'Marca B', 'Marca C', 'Marca D'];
+  const brands = ['Ariat', 'Levis', 'Wrangler', 'Rock Revival'];
   const audienceTypes = ['hombre', 'mujer', 'niños', 'unisex'];
   const styleTypes = ['casual', 'formal', 'deportivo'];
   
@@ -244,7 +244,7 @@ const compareData = [
       id: 1,
       title: 'Producto Premium 1',
       price: '$129.99',
-      brand: 'Marca A',
+      brand: 'Ariat',
       colors: 'Rojo, Azul, Verde',
       sizes: 'S, M, L',
       description: 'Descripción corta del producto premium 1. Características destacadas y beneficios.',
@@ -254,7 +254,7 @@ const compareData = [
       id: 2,
       title: 'Producto Especial 2',
       price: '$89.99',
-      brand: 'Marca B',
+      brand: 'Levis',
       colors: 'Negro, Púrpura',
       sizes: 'M, L, XL',
       description: 'Descripción corta del producto especial 2. Características destacadas y beneficios.',

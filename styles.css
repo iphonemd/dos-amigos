@@ -42,7 +42,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 5%;
+  padding: 0.1rem 4%;
 }
 
 .logo {
@@ -54,7 +54,10 @@ header {
   align-items: center;
 }
 
-.logo i {
+.logo-image {
+  margin: 0;
+  width: 100px;
+  height: 70px;
   margin-right: 10px;
   color: var(--accent);
 }
@@ -252,8 +255,9 @@ header {
 /* Hero Section */
 .hero {
   height: 100vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/800') no-repeat center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('images/logo/dosamigoslogo.png') no-repeat center center;
   background-size: cover;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1144,6 +1148,7 @@ footer {
 
 /* Loading Animation */
 .loading-overlay {
+  margin-top: 80px;
   position: fixed;
   top: 0;
   left: 0;
@@ -1201,7 +1206,8 @@ footer {
   }
 }
 
-@media (max-width: 992px) {
+/* @media (max-width: 992px) { */
+@media (max-width: 1064) {
   .hero h1 {
       font-size: 2.5rem;
   }
@@ -1211,9 +1217,11 @@ footer {
   }
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) { */
+@media (max-width: 940px) {
   .header-container {
-      padding: 1rem 5%;
+      /* padding: 1rem 5%; */
+      padding: 0.1rem 4%;
   }
 
   .mobile-menu-toggle {
@@ -1278,3 +1286,52 @@ footer {
         min-width: 100%;
     }
   } 
+
+/* Mobile Mega Menu Enhancement */
+
+/* Ensure this only applies to mobile view */
+/* @media (max-width: 768px) { */
+@media (max-width: 940px) {
+  /* Reset the mega menu container for mobile */
+  .mega-menu-container {
+    position: static;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly lighter than the main nav */
+    padding: 0;
+    margin: 0;
+    border-radius: 0;
+    border-left: 3px solid var(--accent); /* Visual indicator */
+  }
+  
+  /* When active */
+  .mega-menu-container.active {
+    max-height: 600px;
+  }
+
+  /* Make sure nav items are blocks in mobile */
+  .nav-item {
+    display: block;
+    width: 100%;
+    position: relative;
+  }
+  
+  /* Adjust padding for the mega menu content */
+  .mega-menu {
+    padding: 10px 15px;
+  }
+  
+  /* Dropdown buttons in mobile view */
+  .dropdown-button {
+    width: 100%;
+    text-align: left;
+    justify-content: space-between;
+  }
+  
+  /* Rotate the dropdown icon when active */
+  .dropdown-button.active i {
+    transform: rotate(180deg);
+  }
+}
